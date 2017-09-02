@@ -22,6 +22,7 @@ namespace OrderAssistant
             this.invoices = new HashSet<invoice>();
             this.prices = new HashSet<price>();
             this.pricesInternets = new HashSet<pricesInternet>();
+            this.sales = new HashSet<sale>();
         }
     
         public int id { get; set; }
@@ -55,5 +56,7 @@ namespace OrderAssistant
         public virtual ICollection<price> prices { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<pricesInternet> pricesInternets { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<sale> sales { get; set; }
     }
 }

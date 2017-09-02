@@ -1,0 +1,213 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="Хранилище orderAssistantModelContainer" CdmEntityContainer="orderAssistantEntities1">
+    <EntitySetMapping Name="attachments">
+      <EntityTypeMapping TypeName="orderAssistantModel.attachment">
+        <MappingFragment StoreEntitySet="attachments">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="idBox" ColumnName="idBox" />
+          <ScalarProperty Name="idItem" ColumnName="idItem" />
+          <ScalarProperty Name="count" ColumnName="count" />
+          <ScalarProperty Name="netWeight" ColumnName="netWeight" />
+          <ScalarProperty Name="grossWeight" ColumnName="grossWeight" />
+          <ScalarProperty Name="netVolume" ColumnName="netVolume" />
+          <ScalarProperty Name="grossVolume" ColumnName="grossVolume" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="balances">
+      <EntityTypeMapping TypeName="orderAssistantModel.balance">
+        <MappingFragment StoreEntitySet="balances">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="idItem" ColumnName="idItem" />
+          <ScalarProperty Name="count" ColumnName="count" />
+          <ScalarProperty Name="cost" ColumnName="cost" />
+          <ScalarProperty Name="idStock" ColumnName="idStock" />
+          <ScalarProperty Name="dateCount" ColumnName="dateCount" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="boxes">
+      <EntityTypeMapping TypeName="orderAssistantModel.box">
+        <MappingFragment StoreEntitySet="boxes">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="idShipment" ColumnName="idShipment" />
+          <ScalarProperty Name="nameBox" ColumnName="nameBox" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="brends">
+      <EntityTypeMapping TypeName="orderAssistantModel.brend">
+        <MappingFragment StoreEntitySet="brends">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="name" ColumnName="name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="competitorsInternets">
+      <EntityTypeMapping TypeName="orderAssistantModel.competitorsInternet">
+        <MappingFragment StoreEntitySet="competitorsInternet">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="code" ColumnName="code" />
+          <ScalarProperty Name="deliveryTime" ColumnName="deliveryTime" />
+          <ScalarProperty Name="region" ColumnName="region" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="documentsTraffics">
+      <EntityTypeMapping TypeName="orderAssistantModel.documentsTraffic">
+        <MappingFragment StoreEntitySet="documentsTraffic">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="name" ColumnName="name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="invoices">
+      <EntityTypeMapping TypeName="orderAssistantModel.invoice">
+        <MappingFragment StoreEntitySet="invoices">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="rowNumber" ColumnName="rowNumber" />
+          <ScalarProperty Name="idItem" ColumnName="idItem" />
+          <ScalarProperty Name="idSupply" ColumnName="idSupply" />
+          <ScalarProperty Name="price" ColumnName="price" />
+          <ScalarProperty Name="count" ColumnName="count" />
+          <ScalarProperty Name="note" ColumnName="note" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="items">
+      <EntityTypeMapping TypeName="orderAssistantModel.item">
+        <MappingFragment StoreEntitySet="items">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="catNumber" ColumnName="catNumber" />
+          <ScalarProperty Name="id1C" ColumnName="id1C" />
+          <ScalarProperty Name="idBrend" ColumnName="idBrend" />
+          <ScalarProperty Name="idManufacturer" ColumnName="idManufacturer" />
+          <ScalarProperty Name="netVolume" ColumnName="netVolume" />
+          <ScalarProperty Name="grossVolume" ColumnName="grossVolume" />
+          <ScalarProperty Name="netWight" ColumnName="netWight" />
+          <ScalarProperty Name="grossWight" ColumnName="grossWight" />
+          <ScalarProperty Name="minStock" ColumnName="minStock" />
+          <ScalarProperty Name="maxStock" ColumnName="maxStock" />
+          <ScalarProperty Name="ABCgroup" ColumnName="ABCgroup" />
+          <ScalarProperty Name="ABCratio" ColumnName="ABCratio" />
+          <ScalarProperty Name="note" ColumnName="note" />
+          <ScalarProperty Name="location" ColumnName="location" />
+          <ScalarProperty Name="dateCreate" ColumnName="dateCreate" />
+          <ScalarProperty Name="excludeOrder" ColumnName="excludeOrder" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="manufacturers">
+      <EntityTypeMapping TypeName="orderAssistantModel.manufacturer">
+        <MappingFragment StoreEntitySet="manufacturers">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="name" ColumnName="name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="partners">
+      <EntityTypeMapping TypeName="orderAssistantModel.partner">
+        <MappingFragment StoreEntitySet="partners">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="C1Cid" ColumnName="1Cid" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="prices">
+      <EntityTypeMapping TypeName="orderAssistantModel.price">
+        <MappingFragment StoreEntitySet="prices">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="price1" ColumnName="price" />
+          <ScalarProperty Name="idItem" ColumnName="idItem" />
+          <ScalarProperty Name="idSupplier" ColumnName="idSupplier" />
+          <ScalarProperty Name="dateUpdate" ColumnName="dateUpdate" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="pricesInternets">
+      <EntityTypeMapping TypeName="orderAssistantModel.pricesInternet">
+        <MappingFragment StoreEntitySet="pricesInternet">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="idItem" ColumnName="idItem" />
+          <ScalarProperty Name="idCompetitor" ColumnName="idCompetitor" />
+          <ScalarProperty Name="price" ColumnName="price" />
+          <ScalarProperty Name="position" ColumnName="position" />
+          <ScalarProperty Name="dateRecord" ColumnName="dateRecord" />
+          <ScalarProperty Name="count" ColumnName="count" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="sales">
+      <EntityTypeMapping TypeName="orderAssistantModel.sale">
+        <MappingFragment StoreEntitySet="sales">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="idItem" ColumnName="idItem" />
+          <ScalarProperty Name="idPartner" ColumnName="idPartner" />
+          <ScalarProperty Name="idStock" ColumnName="idStock" />
+          <ScalarProperty Name="count" ColumnName="count" />
+          <ScalarProperty Name="priceForPiece" ColumnName="priceForPiece" />
+          <ScalarProperty Name="idDocumentTraffic" ColumnName="idDocumentTraffic" />
+          <ScalarProperty Name="dateSale" ColumnName="dateSale" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="stocks">
+      <EntityTypeMapping TypeName="orderAssistantModel.stock">
+        <MappingFragment StoreEntitySet="stocks">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="nameShort" ColumnName="nameShort" />
+          <ScalarProperty Name="signature" ColumnName="signature" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="suppliers">
+      <EntityTypeMapping TypeName="orderAssistantModel.supplier">
+        <MappingFragment StoreEntitySet="suppliers">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="name" ColumnName="name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="supplies">
+      <EntityTypeMapping TypeName="orderAssistantModel.supply">
+        <MappingFragment StoreEntitySet="supplies">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="shipmentNumber" ColumnName="shipmentNumber" />
+          <ScalarProperty Name="idSupplier" ColumnName="idSupplier" />
+          <ScalarProperty Name="datePlanPrePayment" ColumnName="datePlanPrePayment" />
+          <ScalarProperty Name="dateRealPrePayment" ColumnName="dateRealPrePayment" />
+          <ScalarProperty Name="datePlanConfPayment" ColumnName="datePlanConfPayment" />
+          <ScalarProperty Name="dateRealConfPayment" ColumnName="dateRealConfPayment" />
+          <ScalarProperty Name="datePlanEndPicking" ColumnName="datePlanEndPicking" />
+          <ScalarProperty Name="dateRealEndPicking" ColumnName="dateRealEndPicking" />
+          <ScalarProperty Name="datePlanLoadingToShip" ColumnName="datePlanLoadingToShip" />
+          <ScalarProperty Name="dateRealLoadingToShip" ColumnName="dateRealLoadingToShip" />
+          <ScalarProperty Name="datePlanPayment" ColumnName="datePlanPayment" />
+          <ScalarProperty Name="dateRealPayment" ColumnName="dateRealPayment" />
+          <ScalarProperty Name="datePlanArrival" ColumnName="datePlanArrival" />
+          <ScalarProperty Name="dateRealArrival" ColumnName="dateRealArrival" />
+          <ScalarProperty Name="datePlanArrivalStock" ColumnName="datePlanArrivalStock" />
+          <ScalarProperty Name="dateRealArrivalStock" ColumnName="dateRealArrivalStock" />
+          <ScalarProperty Name="netWeight" ColumnName="netWeight" />
+          <ScalarProperty Name="grossWeight" ColumnName="grossWeight" />
+          <ScalarProperty Name="grossVolume" ColumnName="grossVolume" />
+          <ScalarProperty Name="netVolume" ColumnName="netVolume" />
+          <ScalarProperty Name="isReceived" ColumnName="isReceived" />
+          <ScalarProperty Name="note" ColumnName="note" />
+          <ScalarProperty Name="isExistInvoice" ColumnName="isExistInvoice" />
+          <ScalarProperty Name="isExistPackingList" ColumnName="isExistPackingList" />
+          <ScalarProperty Name="costOfDelivery" ColumnName="costOfDelivery" />
+          <ScalarProperty Name="costWORate" ColumnName="costWORate" />
+          <ScalarProperty Name="sumInvoice" ColumnName="sumInvoice" />
+          <ScalarProperty Name="exchengeRate" ColumnName="exchengeRate" />
+          <ScalarProperty Name="invoice" ColumnName="invoice" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

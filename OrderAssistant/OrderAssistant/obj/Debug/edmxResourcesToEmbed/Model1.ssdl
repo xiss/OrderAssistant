@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Schema Namespace="Хранилище OrderAssistantModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012.Azure" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+<Schema Namespace="Хранилище orderAssistantModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012.Azure" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
   <EntityType Name="attachments">
     <Key>
       <PropertyRef Name="id" />
@@ -74,7 +74,7 @@
     <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="name" Type="nvarchar" MaxLength="300" />
     <Property Name="catNumber" Type="nvarchar" MaxLength="50" Nullable="false" />
-    <Property Name="1CId" Type="nvarchar" MaxLength="20" Nullable="false" />
+    <Property Name="id1C" Type="nvarchar" MaxLength="20" Nullable="false" />
     <Property Name="idBrend" Type="int" />
     <Property Name="idManufacturer" Type="int" />
     <Property Name="netVolume" Type="decimal" Precision="18" Scale="0" />
@@ -154,7 +154,7 @@
       <PropertyRef Name="id" />
     </Key>
     <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="name" Type="int" Nullable="false" />
+    <Property Name="name" Type="nvarchar" MaxLength="80" Nullable="false" />
   </EntityType>
   <EntityType Name="supplies">
     <Key>
@@ -360,6 +360,20 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="sales_items_id_fk">
+    <End Role="items" Type="Self.items" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="sales" Type="Self.sales" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="items">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="sales">
+        <PropertyRef Name="idItem" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="sales_partners_id_fk">
     <End Role="partners" Type="Self.partners" Multiplicity="1">
       <OnDelete Action="Cascade" />
@@ -402,7 +416,7 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <EntityContainer Name="Хранилище OrderAssistantModelContainer">
+  <EntityContainer Name="Хранилище orderAssistantModelContainer">
     <EntitySet Name="attachments" EntityType="Self.attachments" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="balances" EntityType="Self.balances" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="boxes" EntityType="Self.boxes" Schema="dbo" store:Type="Tables" />
@@ -466,6 +480,10 @@
     <AssociationSet Name="pricesInternet_items_id_fk" Association="Self.pricesInternet_items_id_fk">
       <End Role="items" EntitySet="items" />
       <End Role="pricesInternet" EntitySet="pricesInternet" />
+    </AssociationSet>
+    <AssociationSet Name="sales_items_id_fk" Association="Self.sales_items_id_fk">
+      <End Role="items" EntitySet="items" />
+      <End Role="sales" EntitySet="sales" />
     </AssociationSet>
     <AssociationSet Name="sales_partners_id_fk" Association="Self.sales_partners_id_fk">
       <End Role="partners" EntitySet="partners" />

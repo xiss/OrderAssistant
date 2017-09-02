@@ -18,11 +18,7 @@ namespace OrderAssistant
             var lastRow = curSheet.Cells.SpecialCells(Excel.XlCellType.xlCellTypeLastCell).Row;
             DateTime curDate;
             string curStock;
-            string catNumber;
-            string name;
             double count;
-            string manufacturerStr;
-            string brendStr;
 
             do
             {
@@ -41,6 +37,7 @@ namespace OrderAssistant
                     continue;
                 }
                 // CatNumber
+                string catNumber;
                 if (Check(curSheet.Cells[curRow, Config.ImportOrderStocksAndTrafficColCatNumber].Value, true, true))
                 {
                     catNumber = curSheet.Cells[curRow, Config.ImportOrderStocksAndTrafficColCatNumber].Value;
@@ -51,6 +48,7 @@ namespace OrderAssistant
                     continue;
                 }
                 // Name
+                string name;
                 if (Check(curSheet.Cells[curRow, Config.ImportOrderStocksAndTrafficColName].Value, true, true))
                 {
                     name = curSheet.Cells[curRow, Config.ImportOrderStocksAndTrafficColName].Value;
@@ -83,6 +81,7 @@ namespace OrderAssistant
                     continue;
                 }
                 // Manufacturer
+                string manufacturerStr;
                 if (Check(curSheet.Cells[curRow, Config.ImportOrderStocksAndTrafficColManufacturer].Value, true, true))
                 {
                     manufacturerStr = curSheet.Cells[curRow, Config.ImportOrderStocksAndTrafficColManufacturer].Value;
@@ -93,6 +92,7 @@ namespace OrderAssistant
                     continue;
                 }
                 // Brend
+                string brendStr;
                 if (Check(curSheet.Cells[curRow, Config.ImportOrderStocksAndTrafficColBrend].Value, true, true))
                 {
                     brendStr = curSheet.Cells[curRow, Config.ImportOrderStocksAndTrafficColBrend].Value;
@@ -103,38 +103,22 @@ namespace OrderAssistant
                     continue;
                 }
 
-                // Проверяем, существует ли такой item
                 using (var context = new orderAssistantEntities())
                 {
-                    //var supplier = new supplier()
-                    //{
-                    //    name = 100
-                    //};
-                    //context.suppliers.Add(supplier);
-
-                    var item = (from i in context.items
-                                where i.id1C == id1C
-                                select i).FirstOrDefault();
-                    // Если такого item нет, создаем
-                    if (item == null)
-                    {
-                        var newItem = new item()
-                        {
-                            id1C = id1C,
-                            manufacturer = GetManufacturer(manufacturerStr, context),
-                            brend = GetBrend(brendStr, context),
-                            catNumber = catNumber,
-                            name = name,
-                            ABCgroup = "D" //TODO должно само в базе подставляться. но почемуто не хочет
-                        };
-                        context.items.Add(newItem);
-                        context.SaveChanges();
-                    }
+                    Console.WriteLine( id1C, GetItem(name, id1C, manufacturerStr, brendStr, catNumber, context)); 
                 }
                 curRow++;
             } while (curRow <= lastRow);
         }
-
+        /// <summary>
+        /// Проверяет соответствует ли значение checkable необходимым требованиям, требования задаются в виде набора деректив ДА/НЕТ
+        /// </summary>
+        /// <param name="checkable">Проверяемое</param>
+        /// <param name="isString">Должно быть строкой</param>
+        /// <param name="isNotEmptyString">Должно быть не пустой строкой</param>
+        /// <param name="isDb">Должно быть double</param>
+        /// <param name="isNotNegative">Не должно быть отрицательным</param>
+        /// <returns></returns>
         public static bool Check(dynamic checkable, bool isString = false, bool isNotEmptyString = false, bool isDb = false, bool isNotNegative = false)
         {
             // Если не строка возвращаем ложь
@@ -163,57 +147,105 @@ namespace OrderAssistant
             return true;
         }
 
-        public static brend GetBrend(string brendStr, orderAssistantEntities context)
+        /// <summary>
+        /// Возвращает ссылку на бренд либо созданый либо найденный
+        /// </summary>
+        /// <param name="nameStr">Название</param>
+        /// <param name="context"></param>
+        /// <returns>Ссылка на бренд</returns>
+        public static brend GetBrend(string nameStr, orderAssistantEntities context)
         {
-            using ( context )
+            for (var i = 0; i < 2; i++)
             {
-                for (var i = 0; i < 2; i++)
+                // Проверяем, есть ли такой бренд
+                var brend = (from b in context.brends
+                             where b.name.Contains(nameStr) //TODO Contains ищет с учетом регистра, а нужно видимо без
+                             select b).FirstOrDefault();
+                if (brend == null)
                 {
-                    // Проверяем, есть ли такой бренд
-                    var brend = (from b in context.brends
-                        where b.name.Contains(brendStr) //TODO Contains ищет с учетом регистра, а нужно видимо без
-                        select b).FirstOrDefault();
-                    if (brend == null)
+                    var newBrend = new brend()
                     {
-                        var newBrend = new brend()
-                        {
-                            name = brendStr
-                        };
-                        context.brends.Add(newBrend);
-                        //context.SaveChanges(); 
-                    }
-                    else
-                    {
-                        return brend;
-                    }
+                        name = nameStr
+                    };
+                    context.brends.Add(newBrend);
+                    context.SaveChanges();
+                }
+                else
+                {
+                    return brend;
                 }
             }
             return null;
         }
 
-        public static manufacturer GetManufacturer(string manufacturerStr,orderAssistantEntities context)
+        /// <summary>
+        /// Возвращает ссылку на производителя либо созданого либо найденного
+        /// </summary>
+        /// <param name="nameStr">Название производителя</param>
+        /// <param name="context"></param>
+        /// <returns>Ссылка на производителя</returns>
+        public static manufacturer GetManufacturer(string nameStr, orderAssistantEntities context)
         {
-            using ( context )
+            for (var i = 0; i < 2; i++)
             {
-                for (var i = 0; i < 2; i++)
+                // Проверяем, есть ли такой бренд
+                var manufacturer = (from m in context.manufacturers
+                                    where m.name.Contains(nameStr) //TODO Contains ищет с учетом регистра, а нужно видимо без
+                                    select m).FirstOrDefault();
+                if (manufacturer == null)
                 {
-                    // Проверяем, есть ли такой бренд
-                    var manufacturer = (from m in context.manufacturers
-                        where m.name.Contains(manufacturerStr) //TODO Contains ищет с учетом регистра, а нужно видимо без
-                        select m).FirstOrDefault();
-                    if (manufacturer == null)
+                    var newManufacturer = new manufacturer()
                     {
-                        var newManufacturer = new manufacturer()
-                        {
-                            name = manufacturerStr
-                        };
-                        context.manufacturers.Add(newManufacturer);
-                        //context.SaveChanges();
-                    }
-                    else
+                        name = nameStr
+                    };
+                    context.manufacturers.Add(newManufacturer);
+                    context.SaveChanges();
+                }
+                else
+                {
+                    return manufacturer;
+                }
+            }
+            return null;
+        }
+
+        /// <summary>
+        /// Возвращает ссылку на item либо созданный либо найденный
+        /// </summary>
+        /// <param name="name">Название ЗЧ</param>
+        /// <param name="id1C">Код 1С</param>
+        /// <param name="manufacturerStr">Производитель название</param>
+        /// <param name="brendStr">Название бренда</param>
+        /// <param name="catNumber">Артикул</param>
+        /// <param name="context"></param>
+        /// <returns>Ссылка на item</returns>
+        public static item GetItem(string name, string id1C, string manufacturerStr, string brendStr, string catNumber,
+            orderAssistantEntities context)
+        {
+            for (var a = 0; a < 2; a++)
+            {
+                // Проверяем есть ли такой item
+                var item = (from i in context.items
+                            where i.id1C == id1C
+                            select i).FirstOrDefault();
+                // Если такого item нет, создаем
+                if (item == null)
+                {
+                    var newItem = new item()
                     {
-                        return manufacturer;
-                    }
+                        id1C = id1C,
+                        manufacturer = GetManufacturer(manufacturerStr, context),
+                        brend = GetBrend(brendStr, context),
+                        catNumber = catNumber,
+                        name = name,
+                        ABCgroup = "D" //TODO должно само в базе подставляться. но почемуто не хочет
+                    };
+                    context.items.Add(newItem);
+                    context.SaveChanges();
+                }
+                else
+                {
+                    return item;
                 }
             }
             return null;

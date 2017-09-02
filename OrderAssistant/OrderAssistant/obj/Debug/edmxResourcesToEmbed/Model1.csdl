@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Schema Namespace="OrderAssistantModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+<Schema Namespace="orderAssistantModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
   <EntityType Name="attachment">
     <Key>
       <PropertyRef Name="id" />
@@ -83,7 +83,7 @@
     <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="name" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
     <Property Name="catNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-    <Property Name="C1CId" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="id1C" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
     <Property Name="idBrend" Type="Int32" />
     <Property Name="idManufacturer" Type="Int32" />
     <Property Name="netVolume" Type="Decimal" Precision="18" Scale="0" />
@@ -105,6 +105,7 @@
     <NavigationProperty Name="manufacturer" Relationship="Self.items_manufacturers_id_fk" FromRole="items" ToRole="manufacturers" />
     <NavigationProperty Name="prices" Relationship="Self.prices_items_id_fk" FromRole="items" ToRole="prices" />
     <NavigationProperty Name="pricesInternets" Relationship="Self.pricesInternet_items_id_fk" FromRole="items" ToRole="pricesInternet" />
+    <NavigationProperty Name="sales" Relationship="Self.sales_items_id_fk" FromRole="items" ToRole="sales" />
   </EntityType>
   <EntityType Name="manufacturer">
     <Key>
@@ -161,6 +162,7 @@
     <Property Name="priceForPiece" Type="Decimal" Precision="18" Scale="0" Nullable="false" />
     <Property Name="idDocumentTraffic" Type="String" MaxLength="80" FixedLength="false" Unicode="false" Nullable="false" />
     <Property Name="dateSale" Type="DateTime" Nullable="false" Precision="0" />
+    <NavigationProperty Name="item" Relationship="Self.sales_items_id_fk" FromRole="sales" ToRole="items" />
     <NavigationProperty Name="partner" Relationship="Self.sales_partners_id_fk" FromRole="sales" ToRole="partners" />
     <NavigationProperty Name="stock" Relationship="Self.sales_stocks_id_fk" FromRole="sales" ToRole="stocks" />
   </EntityType>
@@ -180,7 +182,7 @@
       <PropertyRef Name="id" />
     </Key>
     <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="name" Type="Int32" Nullable="false" />
+    <Property Name="name" Type="String" MaxLength="80" FixedLength="false" Unicode="true" Nullable="false" />
     <NavigationProperty Name="prices" Relationship="Self.prices_suppliers_id_fk" FromRole="suppliers" ToRole="prices" />
     <NavigationProperty Name="supplies" Relationship="Self.supplies_suppliers_id_fk" FromRole="suppliers" ToRole="supplies" />
   </EntityType>
@@ -376,6 +378,20 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="sales_items_id_fk">
+    <End Role="items" Type="Self.item" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="sales" Type="Self.sale" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="items">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="sales">
+        <PropertyRef Name="idItem" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="sales_partners_id_fk">
     <End Role="partners" Type="Self.partner" Multiplicity="1">
       <OnDelete Action="Cascade" />
@@ -432,7 +448,7 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <EntityContainer Name="orderAssistantEntities" annotation:LazyLoadingEnabled="true">
+  <EntityContainer Name="orderAssistantEntities1" annotation:LazyLoadingEnabled="true">
     <EntitySet Name="attachments" EntityType="Self.attachment" />
     <EntitySet Name="balances" EntityType="Self.balance" />
     <EntitySet Name="boxes" EntityType="Self.box" />
@@ -492,6 +508,10 @@
     <AssociationSet Name="pricesInternet_items_id_fk" Association="Self.pricesInternet_items_id_fk">
       <End Role="items" EntitySet="items" />
       <End Role="pricesInternet" EntitySet="pricesInternets" />
+    </AssociationSet>
+    <AssociationSet Name="sales_items_id_fk" Association="Self.sales_items_id_fk">
+      <End Role="items" EntitySet="items" />
+      <End Role="sales" EntitySet="sales" />
     </AssociationSet>
     <AssociationSet Name="sales_partners_id_fk" Association="Self.sales_partners_id_fk">
       <End Role="partners" EntitySet="partners" />

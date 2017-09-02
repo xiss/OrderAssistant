@@ -23,6 +23,7 @@ namespace OrderAssistant
         public string idDocumentTraffic { get; set; }
         public System.DateTime dateSale { get; set; }
     
+        public virtual item item { get; set; }
         public virtual partner partner { get; set; }
         public virtual stock stock { get; set; }
     }

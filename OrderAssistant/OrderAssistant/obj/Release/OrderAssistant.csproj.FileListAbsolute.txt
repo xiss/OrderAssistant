@@ -1,0 +1,10 @@
+D:\Dropbox\dev\git\OrderAssistant\OrderAssistant\OrderAssistant\bin\Release\OrderAssistant.exe.config
+D:\Dropbox\dev\git\OrderAssistant\OrderAssistant\OrderAssistant\bin\Release\OrderAssistant.exe
+D:\Dropbox\dev\git\OrderAssistant\OrderAssistant\OrderAssistant\bin\Release\OrderAssistant.pdb
+D:\Dropbox\dev\git\OrderAssistant\OrderAssistant\OrderAssistant\bin\Release\EntityFramework.dll
+D:\Dropbox\dev\git\OrderAssistant\OrderAssistant\OrderAssistant\bin\Release\EntityFramework.SqlServer.dll
+D:\Dropbox\dev\git\OrderAssistant\OrderAssistant\OrderAssistant\bin\Release\EntityFramework.xml
+D:\Dropbox\dev\git\OrderAssistant\OrderAssistant\OrderAssistant\bin\Release\EntityFramework.SqlServer.xml
+D:\Dropbox\dev\git\OrderAssistant\OrderAssistant\OrderAssistant\bin\Release\ru\EntityFramework.resources.dll
+D:\Dropbox\dev\git\OrderAssistant\OrderAssistant\OrderAssistant\obj\Release\OrderAssistant.exe
+D:\Dropbox\dev\git\OrderAssistant\OrderAssistant\OrderAssistant\obj\Release\OrderAssistant.pdb
