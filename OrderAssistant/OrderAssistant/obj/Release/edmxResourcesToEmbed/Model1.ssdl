@@ -19,7 +19,7 @@
     </Key>
     <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="idItem" Type="int" Nullable="false" />
-    <Property Name="count" Type="int" Nullable="false" />
+    <Property Name="count" Type="decimal" Precision="18" Scale="0" Nullable="false" />
     <Property Name="cost" Type="decimal" Precision="18" Scale="0" Nullable="false" />
     <Property Name="idStock" Type="int" Nullable="false" />
     <Property Name="dateCount" Type="date" Nullable="false" />

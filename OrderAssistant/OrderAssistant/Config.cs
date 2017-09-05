@@ -52,5 +52,6 @@ namespace OrderAssistant
         /// Импорт. Отчет остатки и обороты. Колонка содержащая название склада.
         /// </summary>
         public static int ImportOrderStocksAndTrafficColStock = 3;
+
     }
 }

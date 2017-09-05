@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity.Core.Common.CommandTrees;
+using System.Globalization;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Runtime.Remoting;
@@ -29,6 +30,7 @@ namespace OrderAssistant
 					{
 						//TODO Добавить логирование если дата не создалась
 						curDate = DateTime.Parse(curSheet.Cells[curRow, Config.ImportOrderStocksAndTrafficColDate].Value);
+						Console.WriteLine(curDate.ToString(CultureInfo.InvariantCulture));
 						curRow++;
 						continue;
 					}
@@ -37,6 +39,7 @@ namespace OrderAssistant
 					{
 						//TODO Добавить логирование если склад не нашелся
 						curStock = TakeStock(curSheet.Cells[curRow, Config.ImportOrderStocksAndTrafficColStock].Value, context);
+						Console.WriteLine(curStock.name);
 						curRow++;
 						continue;
 					}
@@ -48,7 +51,7 @@ namespace OrderAssistant
 					}
 					else
 					{
-						//TODO в лог
+						Console.WriteLine(string.Join("Ошибка в строке " , curRow , " столбец " , Config.ImportOrderStocksAndTrafficColCatNumber));//TODO в лог
 						curRow++;
 						continue;
 					}
@@ -60,7 +63,7 @@ namespace OrderAssistant
 					}
 					else
 					{
-						//TODO в лог
+						Console.WriteLine(string.Join("Ошибка в строке ", curRow, " столбец ", Config.ImportOrderStocksAndTrafficColName));//TODO в лог
 						curRow++;
 						continue;
 					}
@@ -74,7 +77,7 @@ namespace OrderAssistant
 					}
 					else
 					{
-						//TODO в лог
+						Console.WriteLine(string.Join("Ошибка в строке ", curRow, " столбец ", Config.ImportOrderStocksAndTrafficColCount));//TODO в лог
 						curRow++;
 						continue;
 					}
@@ -86,7 +89,7 @@ namespace OrderAssistant
 					}
 					else
 					{
-						//TODO в лог
+						Console.WriteLine(string.Join("Ошибка в строке ", curRow, " столбец ", Config.ImportOrderStocksAndTrafficCol1CId));//TODO в лог
 						curRow++;
 						continue;
 					}
@@ -98,7 +101,7 @@ namespace OrderAssistant
 					}
 					else
 					{
-						//TODO в лог
+						Console.WriteLine(string.Join("Ошибка в строке ", curRow, " столбец ", Config.ImportOrderStocksAndTrafficColManufacturer));//TODO в лог
 						curRow++;
 						continue;
 					}
@@ -110,7 +113,7 @@ namespace OrderAssistant
 					}
 					else
 					{
-						//TODO в лог
+						Console.WriteLine(string.Join("Ошибка в строке ", curRow, " столбец ", Config.ImportOrderStocksAndTrafficColBrend));//TODO в лог
 						curRow++;
 						continue;
 					}
@@ -123,7 +126,7 @@ namespace OrderAssistant
 					}
 					else
 					{
-						//TODO в лог
+						Console.WriteLine(string.Join("Ошибка в строке ", curRow, " столбец ", Config.ImportOrderStocksAndTrafficColCost));//TODO в лог
 						curRow++;
 						continue;
 					}
