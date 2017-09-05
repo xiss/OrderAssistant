@@ -21,7 +21,7 @@
     </Key>
     <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="idItem" Type="Int32" Nullable="false" />
-    <Property Name="count" Type="Int32" Nullable="false" />
+    <Property Name="count" Type="Decimal" Nullable="false" />
     <Property Name="cost" Type="Decimal" Precision="18" Scale="0" Nullable="false" />
     <Property Name="idStock" Type="Int32" Nullable="false" />
     <Property Name="dateCount" Type="DateTime" Nullable="false" Precision="0" />
@@ -448,7 +448,7 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <EntityContainer Name="orderAssistantEntities1" annotation:LazyLoadingEnabled="true">
+  <EntityContainer Name="orderAssistantEntities" annotation:LazyLoadingEnabled="true">
     <EntitySet Name="attachments" EntityType="Self.attachment" />
     <EntitySet Name="balances" EntityType="Self.balance" />
     <EntitySet Name="boxes" EntityType="Self.box" />

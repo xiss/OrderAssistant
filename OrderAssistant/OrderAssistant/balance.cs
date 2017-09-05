@@ -16,7 +16,7 @@ namespace OrderAssistant
     {
         public int id { get; set; }
         public int idItem { get; set; }
-        public int count { get; set; }
+        public decimal count { get; set; }
         public decimal cost { get; set; }
         public int idStock { get; set; }
         public System.DateTime dateCount { get; set; }
