@@ -24,7 +24,7 @@ namespace OrderAssistant
 			var curDate = new DateTime();
 			using (var context = new orderAssistantEntities())
 			{
-				while (curRow <= lastRow) 
+				while (curRow <= lastRow)
 				{
 					// Date
 					if (curSheet.Cells[curRow, Config.Import.OrderStocksAndTraffic.ColDate].Value != null)
@@ -63,7 +63,7 @@ namespace OrderAssistant
 							continue;
 						}
 					}
-					
+
 					string catNumber;
 					string name;
 					decimal count;
@@ -81,10 +81,10 @@ namespace OrderAssistant
 						brendStr = curSheet.Cells[curRow, Config.Import.OrderStocksAndTraffic.ColBrend].Value;
 						cost = (decimal)curSheet.Cells[curRow, Config.Import.OrderStocksAndTraffic.ColCost].Value;
 					}
-					catch (Microsoft.CSharp.RuntimeBinder.RuntimeBinderException e)
+					catch (Exception e)
 					{
 						Console.WriteLine(e);
-						Console.WriteLine(Join("Ошибка в строке", curRow) );
+						Console.WriteLine(Join("Ошибка в строке", curRow));
 						curRow++;
 						continue;
 					}
@@ -99,10 +99,10 @@ namespace OrderAssistant
 
 					// Проверка на пустые строки
 					if (IsNullOrEmpty(catNumber) ||
-						IsNullOrEmpty(name) || 
-						IsNullOrEmpty(id1C) || 
+						IsNullOrEmpty(name) ||
+						IsNullOrEmpty(id1C) ||
 						IsNullOrEmpty(manufacturerStr) ||
-					    IsNullOrEmpty(brendStr))
+						IsNullOrEmpty(brendStr))
 					{
 						curRow++;
 						Console.WriteLine("Строка содержит пустые параметры");
@@ -112,10 +112,10 @@ namespace OrderAssistant
 					var item = GetItem(name, id1C, manufacturerStr, brendStr, catNumber, context);
 					item.balances.Add(GetBalance(curDate, curStock, cost, item, count, context));
 					curRow++;
-				} 
+				}
 			}
 		}
-		
+
 		/// <summary>
 		/// Возвращает ссылку на бренд либо созданый либо найденный, ищет без учета регистра.
 		/// </summary>
@@ -126,7 +126,7 @@ namespace OrderAssistant
 		{
 			// Проверяем, есть ли такой бренд
 			var brend = (from b in context.brends
-						 where b.name.ToLower().Contains(nameStr.ToLower()) 
+						 where b.name.ToLower().Contains(nameStr.ToLower())
 						 select b).FirstOrDefault();
 			if (brend == null)
 			{
