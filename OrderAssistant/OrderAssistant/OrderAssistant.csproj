@@ -73,10 +73,6 @@
     <Compile Include="documentsTraffic.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="extBalance.cs" />
-    <Compile Include="extBrend.cs" />
-    <Compile Include="extItem.cs" />
-    <Compile Include="extManufacturer.cs" />
     <Compile Include="invoice.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
