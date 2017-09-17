@@ -194,7 +194,7 @@ namespace OrderAssistant
 			orderAssistantEntities context)
 		{
 			// Проверяем есть ли такой item
-			var item = (from i in context.items.Local
+			var item = (from i in context.items.Local.AsParallel()
 						where i.id1C == id1C
 						select i).FirstOrDefault();
 			// Если такого item нет, создаем
@@ -235,7 +235,7 @@ namespace OrderAssistant
 		{
 			// Проверяем есть такая запись или нет
 			var balance = (from b in context.balances.Local
-						   where b.stock.id == stock.id && b.dateCount == date && b.item.id == item.id
+						   where b.stock.id == stock.id && b.dateCount == date && b.item.id1C == item.id1C
 						   select b).FirstOrDefault();
 			// Если нет создаем
 			if (balance == null)
