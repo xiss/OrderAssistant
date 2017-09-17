@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Schema Namespace="Хранилище OrderAssistantModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012.Azure" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+<Schema Namespace="Хранилище orderAssistantModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012.Azure" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
   <EntityType Name="attachments">
     <Key>
       <PropertyRef Name="id" />
@@ -8,10 +8,10 @@
     <Property Name="idBox" Type="int" Nullable="false" />
     <Property Name="idItem" Type="int" Nullable="false" />
     <Property Name="count" Type="int" Nullable="false" />
-    <Property Name="netWeight" Type="decimal" Precision="18" Scale="0" Nullable="false" />
-    <Property Name="grossWeight" Type="decimal" Precision="18" Scale="0" Nullable="false" />
-    <Property Name="netVolume" Type="decimal" Precision="18" Scale="0" Nullable="false" />
-    <Property Name="grossVolume" Type="decimal" Precision="18" Scale="0" Nullable="false" />
+    <Property Name="netWeight" Type="decimal" Precision="18" Scale="6" Nullable="false" />
+    <Property Name="grossWeight" Type="decimal" Precision="18" Scale="6" Nullable="false" />
+    <Property Name="netVolume" Type="decimal" Precision="18" Scale="6" Nullable="false" />
+    <Property Name="grossVolume" Type="decimal" Precision="18" Scale="6" Nullable="false" />
   </EntityType>
   <EntityType Name="balances">
     <Key>
@@ -19,8 +19,8 @@
     </Key>
     <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="idItem" Type="int" Nullable="false" />
-    <Property Name="count" Type="int" Nullable="false" />
-    <Property Name="cost" Type="decimal" Precision="18" Scale="0" Nullable="false" />
+    <Property Name="count" Type="decimal" Precision="18" Scale="3" Nullable="false" />
+    <Property Name="cost" Type="decimal" Precision="18" Scale="2" Nullable="false" />
     <Property Name="idStock" Type="int" Nullable="false" />
     <Property Name="dateCount" Type="date" Nullable="false" />
   </EntityType>
@@ -32,7 +32,7 @@
     <Property Name="idShipment" Type="int" Nullable="false" />
     <Property Name="nameBox" Type="nvarchar" MaxLength="20" Nullable="false" />
   </EntityType>
-  <EntityType Name="brends">
+  <EntityType Name="brands">
     <Key>
       <PropertyRef Name="id" />
     </Key>
@@ -60,7 +60,7 @@
       <PropertyRef Name="id" />
     </Key>
     <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="rowNumber" Type="decimal" Precision="18" Scale="0" Nullable="false" />
+    <Property Name="rowNumber" Type="decimal" Precision="18" Scale="2" Nullable="false" />
     <Property Name="idItem" Type="int" Nullable="false" />
     <Property Name="idSupply" Type="int" Nullable="false" />
     <Property Name="price" Type="int" Nullable="false" />
@@ -75,16 +75,16 @@
     <Property Name="name" Type="nvarchar" MaxLength="300" />
     <Property Name="catNumber" Type="nvarchar" MaxLength="50" Nullable="false" />
     <Property Name="id1C" Type="nvarchar" MaxLength="20" Nullable="false" />
-    <Property Name="idBrend" Type="int" />
+    <Property Name="idBrand" Type="int" />
     <Property Name="idManufacturer" Type="int" />
-    <Property Name="netVolume" Type="decimal" Precision="18" Scale="0" />
-    <Property Name="grossVolume" Type="decimal" Precision="18" Scale="0" />
-    <Property Name="netWight" Type="decimal" Precision="18" Scale="0" />
-    <Property Name="grossWight" Type="decimal" Precision="18" Scale="0" />
+    <Property Name="netVolume" Type="decimal" Precision="18" Scale="6" />
+    <Property Name="grossVolume" Type="decimal" Precision="18" Scale="6" />
+    <Property Name="netWight" Type="decimal" Precision="18" Scale="6" />
+    <Property Name="grossWight" Type="decimal" Precision="18" Scale="6" />
     <Property Name="minStock" Type="int" />
     <Property Name="maxStock" Type="int" />
     <Property Name="ABCgroup" Type="char" MaxLength="1" Nullable="false" />
-    <Property Name="ABCratio" Type="decimal" Precision="18" Scale="0" />
+    <Property Name="ABCratio" Type="decimal" Precision="18" Scale="3" />
     <Property Name="note" Type="nvarchar" MaxLength="300" />
     <Property Name="location" Type="nvarchar" MaxLength="20" />
     <Property Name="dateCreate" Type="timestamp" StoreGeneratedPattern="Computed" Nullable="false" />
@@ -277,16 +277,16 @@
     </ReferentialConstraint>
   </Association>
   <Association Name="items_brends_id_fk">
-    <End Role="brends" Type="Self.brends" Multiplicity="0..1">
+    <End Role="brands" Type="Self.brands" Multiplicity="0..1">
       <OnDelete Action="Cascade" />
     </End>
     <End Role="items" Type="Self.items" Multiplicity="*" />
     <ReferentialConstraint>
-      <Principal Role="brends">
+      <Principal Role="brands">
         <PropertyRef Name="id" />
       </Principal>
       <Dependent Role="items">
-        <PropertyRef Name="idBrend" />
+        <PropertyRef Name="idBrand" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -416,11 +416,11 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <EntityContainer Name="Хранилище OrderAssistantModelContainer">
+  <EntityContainer Name="Хранилище orderAssistantModelContainer">
     <EntitySet Name="attachments" EntityType="Self.attachments" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="balances" EntityType="Self.balances" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="boxes" EntityType="Self.boxes" Schema="dbo" store:Type="Tables" />
-    <EntitySet Name="brends" EntityType="Self.brends" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="brands" EntityType="Self.brands" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="competitorsInternet" EntityType="Self.competitorsInternet" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="documentsTraffic" EntityType="Self.documentsTraffic" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="invoices" EntityType="Self.invoices" Schema="dbo" store:Type="Tables" />
@@ -458,7 +458,7 @@
       <End Role="invoices" EntitySet="invoices" />
     </AssociationSet>
     <AssociationSet Name="items_brends_id_fk" Association="Self.items_brends_id_fk">
-      <End Role="brends" EntitySet="brends" />
+      <End Role="brands" EntitySet="brands" />
       <End Role="items" EntitySet="items" />
     </AssociationSet>
     <AssociationSet Name="items_manufacturers_id_fk" Association="Self.items_manufacturers_id_fk">

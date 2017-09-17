@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Data.Entity.Core.Common.CommandTrees;
 using System.Globalization;
 using System.Linq;
@@ -9,11 +10,15 @@ using System.Text;
 using System.Threading.Tasks;
 using static System.String;
 using Excel = Microsoft.Office.Interop.Excel;
+using NLog;
+
 
 namespace OrderAssistant
 {
 	class Program
 	{
+		private static Logger logger = LogManager.GetCurrentClassLogger();
+
 		static void Main(string[] args)
 		{
 			var curWb = new Excel.Application().Workbooks.Open(Config.Import.OrderStocksAndTraffic.FileName);
@@ -22,43 +27,48 @@ namespace OrderAssistant
 			var lastRow = curSheet.Cells.SpecialCells(Excel.XlCellType.xlCellTypeLastCell).Row;
 			var curStock = new stock();
 			var curDate = new DateTime();
+
+			// Считываем лист в массив
+			var range = (Excel.Range)curSheet.Range[curSheet.Cells[1, 1], curSheet.Cells[lastRow, 30]];
+			var dataArr = (object[,])range.Value;
 			using (var context = new orderAssistantEntities())
 			{
+				context.items.Load();
+				context.brands.Load();
+				context.manufacturers.Load();
+				context.balances.Load();
+				context.stocks.Load();
+
 				while (curRow <= lastRow)
 				{
 					// Date
-					if (curSheet.Cells[curRow, Config.Import.OrderStocksAndTraffic.ColDate].Value != null)
+					if (dataArr[curRow, Config.Import.OrderStocksAndTraffic.ColDate] != null)
 					{
 						try
 						{
-							curDate = DateTime.Parse(curSheet.Cells[curRow, Config.Import.OrderStocksAndTraffic.ColDate].Value);
-							Console.WriteLine(curDate.ToString(CultureInfo.InvariantCulture));
+							curDate = DateTime.Parse(dataArr[curRow, Config.Import.OrderStocksAndTraffic.ColDate].ToString());
 							curRow++;
 							continue;
 						}
 						catch (FormatException e)
 						{
-							//TODO Добавить логирование если дата не создалась
-							Console.WriteLine("Дата не является датой");
-							Console.WriteLine(e);
+							logger.Error("Дата не является датой. Строка {0}. {1}", curRow, e.Message);
 							curRow++;
 							continue;
 						}
 					}
 					// Stock
-					if (curSheet.Cells[curRow, Config.Import.OrderStocksAndTraffic.ColStock].Value != null)
+					if (dataArr[curRow, Config.Import.OrderStocksAndTraffic.ColStock] != null)
 					{
 						try
 						{
-							curStock = TakeStock(curSheet.Cells[curRow, Config.Import.OrderStocksAndTraffic.ColStock].Value, context);
-							Console.WriteLine(curStock.name);
+							curStock = TakeStock(dataArr[curRow, Config.Import.OrderStocksAndTraffic.ColStock].ToString(), context);
 							curRow++;
 							continue;
 						}
 						catch (Exception e)
 						{
-							//TODO Добавить логирование если склад не нашелся
-							Console.WriteLine(e);
+							logger.Error("Склад не найден в БД. Строка {0}. {1}", curRow, e.Message);
 							curRow++;
 							continue;
 						}
@@ -73,18 +83,17 @@ namespace OrderAssistant
 					decimal cost;
 					try
 					{
-						catNumber = curSheet.Cells[curRow, Config.Import.OrderStocksAndTraffic.ColCatNumber].Value;
-						name = curSheet.Cells[curRow, Config.Import.OrderStocksAndTraffic.ColName].Value;
-						count = (decimal)curSheet.Cells[curRow, Config.Import.OrderStocksAndTraffic.ColCount].Value;
-						id1C = curSheet.Cells[curRow, Config.Import.OrderStocksAndTraffic.Col1CId].Value;
-						manufacturerStr = curSheet.Cells[curRow, Config.Import.OrderStocksAndTraffic.ColManufacturer].Value;
-						brendStr = curSheet.Cells[curRow, Config.Import.OrderStocksAndTraffic.ColBrend].Value;
-						cost = (decimal)curSheet.Cells[curRow, Config.Import.OrderStocksAndTraffic.ColCost].Value;
+						catNumber = dataArr[curRow, Config.Import.OrderStocksAndTraffic.ColCatNumber].ToString();
+						name = dataArr[curRow, Config.Import.OrderStocksAndTraffic.ColName].ToString();
+						count = Convert.ToDecimal(dataArr[curRow, Config.Import.OrderStocksAndTraffic.ColCount]);
+						id1C = dataArr[curRow, Config.Import.OrderStocksAndTraffic.Col1CId].ToString();
+						manufacturerStr = dataArr[curRow, Config.Import.OrderStocksAndTraffic.ColManufacturer].ToString();
+						brendStr = dataArr[curRow, Config.Import.OrderStocksAndTraffic.ColBrend].ToString();
+						cost = Convert.ToDecimal(dataArr[curRow, Config.Import.OrderStocksAndTraffic.ColCost]);
 					}
 					catch (Exception e)
 					{
-						Console.WriteLine(e);
-						Console.WriteLine(Join("Ошибка в строке", curRow));
+						logger.Error("Ошибка конвертации данных в строке {0}. {1}", curRow, e.Message);
 						curRow++;
 						continue;
 					}
@@ -92,8 +101,8 @@ namespace OrderAssistant
 					// Проверка на отрицательные остатки
 					if (cost <= 0 || count <= 0)
 					{
+						logger.Warn("Себестоимость или количество меньше или равно нулю. Строка {0}", curRow);
 						curRow++;
-						Console.WriteLine("Себестоимость или количество меньше или равно нулю.");
 						continue;
 					}
 
@@ -104,15 +113,23 @@ namespace OrderAssistant
 						IsNullOrEmpty(manufacturerStr) ||
 						IsNullOrEmpty(brendStr))
 					{
+						logger.Warn("Строка {0} содержит пустые параметры", curRow);
 						curRow++;
-						Console.WriteLine("Строка содержит пустые параметры");
 						continue;
 					}
 					Console.WriteLine(id1C);
 					var item = GetItem(name, id1C, manufacturerStr, brendStr, catNumber, context);
 					item.balances.Add(GetBalance(curDate, curStock, cost, item, count, context));
+
+					if (curRow % Config.Import.LoadAfter == 0)
+					{
+						Console.WriteLine("Загрузка в БД строка {0}", curRow);
+						context.SaveChanges();
+					}
 					curRow++;
 				}
+				Console.WriteLine("Загрузка в БД строка {0}", curRow);
+				context.SaveChanges();
 			}
 		}
 
@@ -122,21 +139,20 @@ namespace OrderAssistant
 		/// <param name="nameStr">Название</param>
 		/// <param name="context"></param>
 		/// <returns>Ссылка на бренд</returns>
-		public static brend GetBrend(string nameStr, orderAssistantEntities context)
+		public static brand GetBrand(string nameStr, orderAssistantEntities context)
 		{
 			// Проверяем, есть ли такой бренд
-			var brend = (from b in context.brends
+			var brend = (from b in context.brands.Local
 						 where b.name.ToLower().Contains(nameStr.ToLower())
 						 select b).FirstOrDefault();
 			if (brend == null)
 			{
-				var newBrend = new brend()
+				var newBrend = new brand()
 				{
 					name = nameStr
 				};
-				brend = context.brends.Add(newBrend);
+				brend = context.brands.Add(newBrend);
 			}
-			context.SaveChanges();
 			return brend;
 		}
 
@@ -150,7 +166,7 @@ namespace OrderAssistant
 		{
 
 			// Проверяем, есть ли такой бренд
-			var manufacturer = (from m in context.manufacturers
+			var manufacturer = (from m in context.manufacturers.Local
 								where m.name.ToLower().Contains(nameStr.ToLower())
 								select m).FirstOrDefault();
 			if (manufacturer == null)
@@ -161,7 +177,6 @@ namespace OrderAssistant
 				};
 				manufacturer = context.manufacturers.Add(newManufacturer);
 			}
-			context.SaveChanges();
 			return manufacturer;
 		}
 
@@ -179,7 +194,7 @@ namespace OrderAssistant
 			orderAssistantEntities context)
 		{
 			// Проверяем есть ли такой item
-			var item = (from i in context.items
+			var item = (from i in context.items.Local
 						where i.id1C == id1C
 						select i).FirstOrDefault();
 			// Если такого item нет, создаем
@@ -189,7 +204,7 @@ namespace OrderAssistant
 				{
 					id1C = id1C,
 					manufacturer = GetManufacturer(manufacturerStr, context),
-					brend = GetBrend(brendStr, context),
+					brand = GetBrand(brendStr, context),
 					catNumber = catNumber,
 					name = name,
 					ABCgroup = "D" //TODO должно само в базе подставляться. но почемуто не хочет
@@ -199,10 +214,9 @@ namespace OrderAssistant
 			}
 			// Иначе обновляем
 			item.manufacturer = GetManufacturer(manufacturerStr, context);
-			item.brend = GetBrend(brendStr, context);
+			item.brand = GetBrand(brendStr, context);
 			item.catNumber = catNumber;
 			item.name = name;
-			context.SaveChanges();
 			return item;
 		}
 
@@ -220,7 +234,7 @@ namespace OrderAssistant
 			orderAssistantEntities context)
 		{
 			// Проверяем есть такая запись или нет
-			var balance = (from b in context.balances
+			var balance = (from b in context.balances.Local
 						   where b.stock.id == stock.id && b.dateCount == date && b.item.id == item.id
 						   select b).FirstOrDefault();
 			// Если нет создаем
@@ -242,7 +256,6 @@ namespace OrderAssistant
 				balance.cost = cost;
 				balance.count = count;
 			}
-			context.SaveChanges();
 			return balance;
 		}
 		/// <summary>

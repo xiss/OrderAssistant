@@ -15,58 +15,63 @@ namespace OrderAssistant
 				/// <summary>
 				/// Импорт. Отчет остатки и обороты. Полное имя файла.
 				/// </summary>
-				public static string FileName = "D:\\Dropbox\\dev\\git\\OrderAssistant\\OrderAssistant\\OrderAssistant\\bin\\Остатки для БД(новая).xls";
+				public const string FileName = "D:\\Dropbox\\dev\\git\\OrderAssistant\\OrderAssistant\\OrderAssistant\\bin\\Остатки для БД(новая).xls";
 
 				/// <summary>
 				/// Импорт. Отчет остатки и обороты. Первая строка с которой начинаются данные.
 				/// </summary>
-				public static int FirstRow = 7;
+				public const int FirstRow = 7;
 
 				/// <summary>
 				/// Импорт. Отчет остатки и обороты. Колонка содержащая название запчасти.
 				/// </summary>
-				public static int ColName = 18;
+				public const int ColName = 18;
 
 				/// <summary>
 				/// Импорт. Отчет остатки и обороты. Колонка содержащая каталожный номер запчасти.
 				/// </summary>
-				public static int ColCatNumber = 4;
+				public const int ColCatNumber = 4;
 
 				/// <summary>
 				/// Импорт. Отчет остатки и обороты. Колонка содержащая код 1С.
 				/// </summary>
-				public static int Col1CId = 23;
+				public const int Col1CId = 23;
 
 				/// <summary>
 				/// Импорт. Отчет остатки и обороты. Колонка содержащая бренд.
 				/// </summary>
-				public static int ColBrend = 30;
+				public const int ColBrend = 30;
 
 				/// <summary>
 				/// Импорт. Отчет остатки и обороты. Колонка содержащая производителя.
 				/// </summary>
-				public static int ColManufacturer = 29;
+				public const int ColManufacturer = 29;
 
 				/// <summary>
 				/// Импорт. Отчет остатки и обороты. Колонка содержащая количество.
 				/// </summary>
-				public static int ColCount = 21;
+				public const int ColCount = 21;
 
 				/// <summary>
 				/// Импорт. Отчет остатки и обороты. Колонка содержащая себестоимость.
 				/// </summary>
-				public static int ColCost = 22;
+				public const int ColCost = 22;
 
 				/// <summary>   
 				/// Импорт. Отчет остатки и обороты. Колонка содержащая дату остатка.
 				/// </summary>
-				public static int ColDate = 2;
+				public const int ColDate = 2;
 
 				/// <summary>
 				/// Импорт. Отчет остатки и обороты. Колонка содержащая название склада.
 				/// </summary>
-				public static int ColStock = 3;
+				public const int ColStock = 3;
 			}
+
+			/// <summary>
+			/// Количество строк после которых осуществляется загрузка в базу
+			/// </summary>
+		    public const int LoadAfter = 100;
 	    }
     }
 }

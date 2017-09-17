@@ -28,7 +28,7 @@ namespace OrderAssistant
         public virtual DbSet<attachment> attachments { get; set; }
         public virtual DbSet<balance> balances { get; set; }
         public virtual DbSet<box> boxes { get; set; }
-        public virtual DbSet<brend> brends { get; set; }
+        public virtual DbSet<brand> brands { get; set; }
         public virtual DbSet<competitorsInternet> competitorsInternets { get; set; }
         public virtual DbSet<documentsTraffic> documentsTraffics { get; set; }
         public virtual DbSet<invoice> invoices { get; set; }

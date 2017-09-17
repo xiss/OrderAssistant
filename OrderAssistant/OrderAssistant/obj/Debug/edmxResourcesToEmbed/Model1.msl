@@ -36,9 +36,9 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="brends">
-      <EntityTypeMapping TypeName="orderAssistantModel.brend">
-        <MappingFragment StoreEntitySet="brends">
+    <EntitySetMapping Name="brands">
+      <EntityTypeMapping TypeName="orderAssistantModel.brand">
+        <MappingFragment StoreEntitySet="brands">
           <ScalarProperty Name="id" ColumnName="id" />
           <ScalarProperty Name="name" ColumnName="name" />
         </MappingFragment>
@@ -82,7 +82,7 @@
           <ScalarProperty Name="name" ColumnName="name" />
           <ScalarProperty Name="catNumber" ColumnName="catNumber" />
           <ScalarProperty Name="id1C" ColumnName="id1C" />
-          <ScalarProperty Name="idBrend" ColumnName="idBrend" />
+          <ScalarProperty Name="idBrand" ColumnName="idBrand" />
           <ScalarProperty Name="idManufacturer" ColumnName="idManufacturer" />
           <ScalarProperty Name="netVolume" ColumnName="netVolume" />
           <ScalarProperty Name="grossVolume" ColumnName="grossVolume" />

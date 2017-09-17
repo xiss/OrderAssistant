@@ -9,3 +9,6 @@ D:\Dropbox\dev\git\OrderAssistant\OrderAssistant\OrderAssistant\bin\Debug\Entity
 D:\Dropbox\dev\git\OrderAssistant\OrderAssistant\OrderAssistant\bin\Debug\EntityFramework.xml
 D:\Dropbox\dev\git\OrderAssistant\OrderAssistant\OrderAssistant\bin\Debug\EntityFramework.SqlServer.xml
 D:\Dropbox\dev\git\OrderAssistant\OrderAssistant\OrderAssistant\bin\Debug\ru\EntityFramework.resources.dll
+D:\Dropbox\dev\git\OrderAssistant\OrderAssistant\OrderAssistant\bin\Debug\NLog.config
+D:\Dropbox\dev\git\OrderAssistant\OrderAssistant\OrderAssistant\bin\Debug\NLog.dll
+D:\Dropbox\dev\git\OrderAssistant\OrderAssistant\OrderAssistant\bin\Debug\NLog.xml

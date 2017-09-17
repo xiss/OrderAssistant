@@ -1,8 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-  <EntityContainerMapping StorageEntityContainer="Хранилище OrderAssistantModelContainer" CdmEntityContainer="orderAssistantEntities">
+  <EntityContainerMapping StorageEntityContainer="Хранилище orderAssistantModelContainer" CdmEntityContainer="orderAssistantEntities">
     <EntitySetMapping Name="attachments">
-      <EntityTypeMapping TypeName="OrderAssistantModel.attachment">
+      <EntityTypeMapping TypeName="orderAssistantModel.attachment">
         <MappingFragment StoreEntitySet="attachments">
           <ScalarProperty Name="id" ColumnName="id" />
           <ScalarProperty Name="idBox" ColumnName="idBox" />
@@ -16,7 +16,7 @@
       </EntityTypeMapping>
     </EntitySetMapping>
     <EntitySetMapping Name="balances">
-      <EntityTypeMapping TypeName="OrderAssistantModel.balance">
+      <EntityTypeMapping TypeName="orderAssistantModel.balance">
         <MappingFragment StoreEntitySet="balances">
           <ScalarProperty Name="id" ColumnName="id" />
           <ScalarProperty Name="idItem" ColumnName="idItem" />
@@ -28,7 +28,7 @@
       </EntityTypeMapping>
     </EntitySetMapping>
     <EntitySetMapping Name="boxes">
-      <EntityTypeMapping TypeName="OrderAssistantModel.box">
+      <EntityTypeMapping TypeName="orderAssistantModel.box">
         <MappingFragment StoreEntitySet="boxes">
           <ScalarProperty Name="id" ColumnName="id" />
           <ScalarProperty Name="idShipment" ColumnName="idShipment" />
@@ -36,16 +36,16 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="brends">
-      <EntityTypeMapping TypeName="OrderAssistantModel.brend">
-        <MappingFragment StoreEntitySet="brends">
+    <EntitySetMapping Name="brands">
+      <EntityTypeMapping TypeName="orderAssistantModel.brand">
+        <MappingFragment StoreEntitySet="brands">
           <ScalarProperty Name="id" ColumnName="id" />
           <ScalarProperty Name="name" ColumnName="name" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
     <EntitySetMapping Name="competitorsInternets">
-      <EntityTypeMapping TypeName="OrderAssistantModel.competitorsInternet">
+      <EntityTypeMapping TypeName="orderAssistantModel.competitorsInternet">
         <MappingFragment StoreEntitySet="competitorsInternet">
           <ScalarProperty Name="id" ColumnName="id" />
           <ScalarProperty Name="code" ColumnName="code" />
@@ -55,7 +55,7 @@
       </EntityTypeMapping>
     </EntitySetMapping>
     <EntitySetMapping Name="documentsTraffics">
-      <EntityTypeMapping TypeName="OrderAssistantModel.documentsTraffic">
+      <EntityTypeMapping TypeName="orderAssistantModel.documentsTraffic">
         <MappingFragment StoreEntitySet="documentsTraffic">
           <ScalarProperty Name="id" ColumnName="id" />
           <ScalarProperty Name="name" ColumnName="name" />
@@ -63,7 +63,7 @@
       </EntityTypeMapping>
     </EntitySetMapping>
     <EntitySetMapping Name="invoices">
-      <EntityTypeMapping TypeName="OrderAssistantModel.invoice">
+      <EntityTypeMapping TypeName="orderAssistantModel.invoice">
         <MappingFragment StoreEntitySet="invoices">
           <ScalarProperty Name="id" ColumnName="id" />
           <ScalarProperty Name="rowNumber" ColumnName="rowNumber" />
@@ -76,13 +76,13 @@
       </EntityTypeMapping>
     </EntitySetMapping>
     <EntitySetMapping Name="items">
-      <EntityTypeMapping TypeName="OrderAssistantModel.item">
+      <EntityTypeMapping TypeName="orderAssistantModel.item">
         <MappingFragment StoreEntitySet="items">
-          <ScalarProperty Name="id1C" ColumnName="id1C" />
           <ScalarProperty Name="id" ColumnName="id" />
           <ScalarProperty Name="name" ColumnName="name" />
           <ScalarProperty Name="catNumber" ColumnName="catNumber" />
-          <ScalarProperty Name="idBrend" ColumnName="idBrend" />
+          <ScalarProperty Name="id1C" ColumnName="id1C" />
+          <ScalarProperty Name="idBrand" ColumnName="idBrand" />
           <ScalarProperty Name="idManufacturer" ColumnName="idManufacturer" />
           <ScalarProperty Name="netVolume" ColumnName="netVolume" />
           <ScalarProperty Name="grossVolume" ColumnName="grossVolume" />
@@ -100,7 +100,7 @@
       </EntityTypeMapping>
     </EntitySetMapping>
     <EntitySetMapping Name="manufacturers">
-      <EntityTypeMapping TypeName="OrderAssistantModel.manufacturer">
+      <EntityTypeMapping TypeName="orderAssistantModel.manufacturer">
         <MappingFragment StoreEntitySet="manufacturers">
           <ScalarProperty Name="id" ColumnName="id" />
           <ScalarProperty Name="name" ColumnName="name" />
@@ -108,7 +108,7 @@
       </EntityTypeMapping>
     </EntitySetMapping>
     <EntitySetMapping Name="partners">
-      <EntityTypeMapping TypeName="OrderAssistantModel.partner">
+      <EntityTypeMapping TypeName="orderAssistantModel.partner">
         <MappingFragment StoreEntitySet="partners">
           <ScalarProperty Name="id" ColumnName="id" />
           <ScalarProperty Name="name" ColumnName="name" />
@@ -117,7 +117,7 @@
       </EntityTypeMapping>
     </EntitySetMapping>
     <EntitySetMapping Name="prices">
-      <EntityTypeMapping TypeName="OrderAssistantModel.price">
+      <EntityTypeMapping TypeName="orderAssistantModel.price">
         <MappingFragment StoreEntitySet="prices">
           <ScalarProperty Name="id" ColumnName="id" />
           <ScalarProperty Name="price1" ColumnName="price" />
@@ -128,7 +128,7 @@
       </EntityTypeMapping>
     </EntitySetMapping>
     <EntitySetMapping Name="pricesInternets">
-      <EntityTypeMapping TypeName="OrderAssistantModel.pricesInternet">
+      <EntityTypeMapping TypeName="orderAssistantModel.pricesInternet">
         <MappingFragment StoreEntitySet="pricesInternet">
           <ScalarProperty Name="id" ColumnName="id" />
           <ScalarProperty Name="idItem" ColumnName="idItem" />
@@ -141,7 +141,7 @@
       </EntityTypeMapping>
     </EntitySetMapping>
     <EntitySetMapping Name="sales">
-      <EntityTypeMapping TypeName="OrderAssistantModel.sale">
+      <EntityTypeMapping TypeName="orderAssistantModel.sale">
         <MappingFragment StoreEntitySet="sales">
           <ScalarProperty Name="id" ColumnName="id" />
           <ScalarProperty Name="idItem" ColumnName="idItem" />
@@ -155,7 +155,7 @@
       </EntityTypeMapping>
     </EntitySetMapping>
     <EntitySetMapping Name="stocks">
-      <EntityTypeMapping TypeName="OrderAssistantModel.stock">
+      <EntityTypeMapping TypeName="orderAssistantModel.stock">
         <MappingFragment StoreEntitySet="stocks">
           <ScalarProperty Name="id" ColumnName="id" />
           <ScalarProperty Name="name" ColumnName="name" />
@@ -165,7 +165,7 @@
       </EntityTypeMapping>
     </EntitySetMapping>
     <EntitySetMapping Name="suppliers">
-      <EntityTypeMapping TypeName="OrderAssistantModel.supplier">
+      <EntityTypeMapping TypeName="orderAssistantModel.supplier">
         <MappingFragment StoreEntitySet="suppliers">
           <ScalarProperty Name="id" ColumnName="id" />
           <ScalarProperty Name="name" ColumnName="name" />
@@ -173,7 +173,7 @@
       </EntityTypeMapping>
     </EntitySetMapping>
     <EntitySetMapping Name="supplies">
-      <EntityTypeMapping TypeName="OrderAssistantModel.supply">
+      <EntityTypeMapping TypeName="orderAssistantModel.supply">
         <MappingFragment StoreEntitySet="supplies">
           <ScalarProperty Name="id" ColumnName="id" />
           <ScalarProperty Name="name" ColumnName="name" />

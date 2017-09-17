@@ -29,7 +29,7 @@ namespace OrderAssistant
         public string name { get; set; }
         public string catNumber { get; set; }
         public string id1C { get; set; }
-        public Nullable<int> idBrend { get; set; }
+        public Nullable<int> idBrand { get; set; }
         public Nullable<int> idManufacturer { get; set; }
         public Nullable<decimal> netVolume { get; set; }
         public Nullable<decimal> grossVolume { get; set; }
@@ -48,7 +48,7 @@ namespace OrderAssistant
         public virtual ICollection<attachment> attachments { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<balance> balances { get; set; }
-        public virtual brend brend { get; set; }
+        public virtual brand brand { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<invoice> invoices { get; set; }
         public virtual manufacturer manufacturer { get; set; }
