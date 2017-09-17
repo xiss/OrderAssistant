@@ -194,7 +194,7 @@ namespace OrderAssistant
 			orderAssistantEntities context)
 		{
 			// Проверяем есть ли такой item
-			var item = (from i in context.items.Local.AsParallel()
+			var item = (from i in context.items.Local
 						where i.id1C == id1C
 						select i).FirstOrDefault();
 			// Если такого item нет, создаем
