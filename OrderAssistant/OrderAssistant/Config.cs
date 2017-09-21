@@ -33,7 +33,7 @@ namespace OrderAssistant
 			catch (Exception e)
 			{
 				LogManager.GetCurrentClassLogger().Error("Ошибка загрузки настроек. {0}", e.Message);
-				//TODO как закончить выполнение функции
+				//TODO как закончить выполнение функции, вызваться может где угодно
 			}
 		}
 		/// <summary>

@@ -27,8 +27,15 @@ namespace OrderAssistant
 			var curStock = new stock();
 			var curDate = new DateTime();
 			var curRow = Config.Inst.Import.OrderStocksAndTraffic.FirstRow;
-			
-			var dataArr = GetData(Config.Inst.Import.OrderStocksAndTraffic.FileName);
+			object[,] dataArr;
+			try
+			{
+				dataArr = GetData(Config.Inst.Import.OrderStocksAndTraffic.FileName);
+			}
+			catch (Exception)
+			{
+				return;
+			}
 
 			using (var context = new orderAssistantEntities())
 			{
@@ -36,11 +43,19 @@ namespace OrderAssistant
 				context.Configuration.AutoDetectChangesEnabled = false;
 
 				// Загрузка контекста
-				context.items.Load();
-				context.brands.Load();
-				context.manufacturers.Load();
-				context.balances.Load();
-				context.stocks.Load();
+				try
+				{
+					context.items.Load();
+					context.brands.Load();
+					context.manufacturers.Load();
+					context.balances.Load();
+					context.stocks.Load();
+				}
+				catch (Exception e)
+				{
+					Logger.Error("Ошибка загрузки контекста из БД. {0}", e.Message);
+					return;
+				}
 
 				while (curRow <= dataArr.GetUpperBound(0))
 				{
@@ -96,7 +111,7 @@ namespace OrderAssistant
 					}
 					catch (Exception e)
 					{
-						Logger.Error("Ошибка конвертации данных в строке {0}. {1}", curRow, e.Message);
+						Logger.Warn("Ошибка конвертации данных в строке {0}. {1}", curRow, e.Message);
 						curRow++;
 						continue;
 					}
@@ -166,9 +181,8 @@ namespace OrderAssistant
 			}
 			catch (Exception e)
 			{
-				LogManager.GetCurrentClassLogger().Error("Ошибка чтения файла {0}, {1}", fileName, e.Message);
-				return null;
-				//TODO что тут делать дальше????
+				LogManager.GetCurrentClassLogger().Error("Ошибка чтения файла ({0}), {1}", fileName, e.Message);
+				throw;
 			}
 		}
 
@@ -203,7 +217,6 @@ namespace OrderAssistant
 		/// <returns>Ссылка на производителя</returns>
 		public static manufacturer GetManufacturer(string nameStr, orderAssistantEntities context)
 		{
-
 			// Проверяем, есть ли такой бренд
 			var manufacturer = (from m in context.manufacturers.Local
 								where m.name.ToLower().Contains(nameStr.ToLower())
