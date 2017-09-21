@@ -12,3 +12,6 @@ D:\Dropbox\dev\git\OrderAssistant\OrderAssistant\OrderAssistant\bin\Debug\ru\Ent
 D:\Dropbox\dev\git\OrderAssistant\OrderAssistant\OrderAssistant\bin\Debug\NLog.config
 D:\Dropbox\dev\git\OrderAssistant\OrderAssistant\OrderAssistant\bin\Debug\NLog.dll
 D:\Dropbox\dev\git\OrderAssistant\OrderAssistant\OrderAssistant\bin\Debug\NLog.xml
+D:\Dropbox\dev\git\OrderAssistant\OrderAssistant\OrderAssistant\bin\Debug\config.xml
+D:\Dropbox\dev\git\OrderAssistant\OrderAssistant\OrderAssistant\obj\Debug\Interop.Yoksel.dll
+D:\Dropbox\dev\git\OrderAssistant\OrderAssistant\OrderAssistant\obj\Debug\OrderAssistant.csproj.ResolveComReference.cache
