@@ -1,77 +1,140 @@
 ﻿using System;
+using System.CodeDom;
 using System.Collections.Generic;
+using System.Data.Entity.Core.Objects;
+using System.Dynamic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml;
+using System.Xml.Serialization;
+using System.IO;
+using NLog;
 
 namespace OrderAssistant
 {
-    public  static class Config
-    {
-	    public static class Import
-	    {
-			public static class OrderStocksAndTraffic
+	[Serializable]
+	public class Config
+	{
+		public Import Import = Import.Inst;
+		//Загрузка настроек
+		public static void Load()
+		{
+			try
 			{
-				/// <summary>
-				/// Импорт. Отчет остатки и обороты. Полное имя файла.
-				/// </summary>
-				public const string FileName = "D:\\Dropbox\\dev\\git\\OrderAssistant\\OrderAssistant\\OrderAssistant\\bin\\Остатки для БД(новая).xls";
-
-				/// <summary>
-				/// Импорт. Отчет остатки и обороты. Первая строка с которой начинаются данные.
-				/// </summary>
-				public const int FirstRow = 7;
-
-				/// <summary>
-				/// Импорт. Отчет остатки и обороты. Колонка содержащая название запчасти.
-				/// </summary>
-				public const int ColName = 18;
-
-				/// <summary>
-				/// Импорт. Отчет остатки и обороты. Колонка содержащая каталожный номер запчасти.
-				/// </summary>
-				public const int ColCatNumber = 4;
-
-				/// <summary>
-				/// Импорт. Отчет остатки и обороты. Колонка содержащая код 1С.
-				/// </summary>
-				public const int Col1CId = 23;
-
-				/// <summary>
-				/// Импорт. Отчет остатки и обороты. Колонка содержащая бренд.
-				/// </summary>
-				public const int ColBrend = 30;
-
-				/// <summary>
-				/// Импорт. Отчет остатки и обороты. Колонка содержащая производителя.
-				/// </summary>
-				public const int ColManufacturer = 29;
-
-				/// <summary>
-				/// Импорт. Отчет остатки и обороты. Колонка содержащая количество.
-				/// </summary>
-				public const int ColCount = 21;
-
-				/// <summary>
-				/// Импорт. Отчет остатки и обороты. Колонка содержащая себестоимость.
-				/// </summary>
-				public const int ColCost = 22;
-
-				/// <summary>   
-				/// Импорт. Отчет остатки и обороты. Колонка содержащая дату остатка.
-				/// </summary>
-				public const int ColDate = 2;
-
-				/// <summary>
-				/// Импорт. Отчет остатки и обороты. Колонка содержащая название склада.
-				/// </summary>
-				public const int ColStock = 3;
+				var serializer = new XmlSerializer(typeof(Config));
+				using (var stream = File.OpenRead("config.xml"))
+				{
+					_inst = (Config) serializer.Deserialize(stream);
+				}
 			}
+			catch (Exception e)
+			{
+				LogManager.GetCurrentClassLogger().Error("Ошибка загрузки настроек. {0}", e.Message);
+				//TODO как закончить выполнение функции
+			}
+			
+		}
+		//Сохранение настроек
+		public static void Save()
+		{
+			try
+			{
+				var serializer = new XmlSerializer(typeof(Config));
+				var i = new Config();
+				Stream writer = new FileStream("config.xml", FileMode.OpenOrCreate);
+				serializer.Serialize(writer, i);
+				writer.Close();
+			}
+			catch (Exception e)
+			{
+				LogManager.GetCurrentClassLogger().Error("Ошибка сохранения настроек. {0}", e.Message);
+			}
+			
+		}
 
-			/// <summary>
-			/// Количество строк после которых осуществляется загрузка в базу
-			/// </summary>
-		    public const int LoadAfter = 100;
-	    }
-    }
+		//Singleton
+		private Config() { }
+		private static Config _inst;
+		public static Config Inst => _inst ?? (_inst = new Config());
+	}
+	[Serializable]
+	public class Import
+	{
+		/// <summary>
+		/// Количество строк после которых осуществляется загрузка в базу
+		/// </summary>
+		public int LoadAfter;
+
+		public OrderStocksAndTraffic OrderStocksAndTraffic = OrderStocksAndTraffic.Inst;
+
+		//Singleton
+		private Import() { }
+		private static Import _inst;
+		public static Import Inst => _inst ?? (_inst = new Import());
+	}
+	[Serializable]
+	public class OrderStocksAndTraffic
+	{
+		/// <summary>
+		/// Импорт. Отчет остатки и обороты. Полное имя файла.
+		/// </summary>
+		public string FileName;
+
+		/// <summary>
+		/// Импорт. Отчет остатки и обороты. Первая строка с которой начинаются данные.
+		/// </summary>
+		public int FirstRow;
+
+		/// <summary>
+		/// Импорт. Отчет остатки и обороты. Колонка содержащая название запчасти.
+		/// </summary>
+		public int ColName;
+
+		/// <summary>
+		/// Импорт. Отчет остатки и обороты. Колонка содержащая каталожный номер запчасти.
+		/// </summary>
+		public int ColCatNumber;
+
+		/// <summary>
+		/// Импорт. Отчет остатки и обороты. Колонка содержащая код 1С.
+		/// </summary>
+		public int Col1CId;
+
+		/// <summary>
+		/// Импорт. Отчет остатки и обороты. Колонка содержащая бренд.
+		/// </summary>
+		public int ColBrend;
+
+		/// <summary>
+		/// Импорт. Отчет остатки и обороты. Колонка содержащая производителя.
+		/// </summary>
+		public int ColManufacturer;
+
+		/// <summary>
+		/// Импорт. Отчет остатки и обороты. Колонка содержащая количество.
+		/// </summary>
+		public int ColCount;
+
+		/// <summary>
+		/// Импорт. Отчет остатки и обороты. Колонка содержащая себестоимость.
+		/// </summary>
+		public int ColCost;
+
+		/// <summary>   
+		/// Импорт. Отчет остатки и обороты. Колонка содержащая дату остатка.
+		/// </summary>
+		public int ColDate;
+
+		/// <summary>
+		/// Импорт. Отчет остатки и обороты. Колонка содержащая название склада.
+		/// </summary>
+		public int ColStock;
+
+		//Singleton
+		private OrderStocksAndTraffic() { }
+		private static OrderStocksAndTraffic _inst;
+		public static OrderStocksAndTraffic Inst => _inst ?? (_inst = new OrderStocksAndTraffic());
+	}
+
 }
