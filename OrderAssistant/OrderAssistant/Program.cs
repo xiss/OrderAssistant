@@ -1,4 +1,5 @@
 ﻿using System;
+using System.CodeDom;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.Core.Common.CommandTrees;
@@ -11,6 +12,7 @@ using System.Threading.Tasks;
 using static System.String;
 using Excel = Microsoft.Office.Interop.Excel;
 using NLog;
+using Yoksel;
 
 
 namespace OrderAssistant
@@ -22,18 +24,11 @@ namespace OrderAssistant
 		static void Main(string[] args)
 		{
 			//Загружаем настройки
-			Config.Load();
-			
-			var curWb = new Excel.Application().Workbooks.Open(Config.Inst.Import.OrderStocksAndTraffic.FileName);
-			dynamic curSheet = curWb.Worksheets.Item[1];
-			var curRow = Config.Inst.Import.OrderStocksAndTraffic.FirstRow;
-			var lastRow = curSheet.Cells.SpecialCells(Excel.XlCellType.xlCellTypeLastCell).Row;
 			var curStock = new stock();
 			var curDate = new DateTime();
-
-			// Считываем лист в массив
-			var range = (Excel.Range)curSheet.Range[curSheet.Cells[1, 1], curSheet.Cells[lastRow, 30]];
-			var dataArr = (object[,])range.Value;
+			var curRow = Config.Inst.Import.OrderStocksAndTraffic.FirstRow;
+			
+			var dataArr = GetData(Config.Inst.Import.OrderStocksAndTraffic.FileName);
 
 			using (var context = new orderAssistantEntities())
 			{
@@ -47,7 +42,7 @@ namespace OrderAssistant
 				context.balances.Load();
 				context.stocks.Load();
 
-				while (curRow <= lastRow)
+				while (curRow <= dataArr.GetUpperBound(0))
 				{
 					// Date
 					if (dataArr[curRow, Config.Inst.Import.OrderStocksAndTraffic.ColDate] != null)
@@ -138,6 +133,42 @@ namespace OrderAssistant
 				}
 				Console.WriteLine("Загрузка в БД строка {0}", curRow);
 				context.SaveChanges();
+			}
+		}
+		/// <summary>
+		/// Возвращает массив с данными для импорта
+		/// </summary>
+		/// <param name="fileName">путь к файлу</param>
+		/// <returns></returns>
+		private static object[,] GetData(string fileName)
+		{
+			object[,] dataArr;
+			try
+			{
+				if (System.IO.Path.GetExtension(fileName).ToLower() == "mxl")
+				{
+					//ISpreadsheetDocument 
+					return null;
+				}
+				else
+				{
+					var curWb = new Excel.Application().Workbooks.Open(fileName);
+					dynamic curSheet = curWb.Worksheets.Item[1];
+					var lastRow = curSheet.Cells.SpecialCells(Excel.XlCellType.xlCellTypeLastCell).Row;
+					var lastCol = curSheet.Cells.SpecialCells(Excel.XlCellType.xlCellTypeLastCell).Column;
+
+					// Считываем лист в массив
+					var range = (Excel.Range) curSheet.Range[curSheet.Cells[1, 1], curSheet.Cells[lastRow, lastCol]];
+					dataArr = (object[,]) range.Value;
+					curWb.Close();
+				}
+				return dataArr;
+			}
+			catch (Exception e)
+			{
+				LogManager.GetCurrentClassLogger().Error("Ошибка чтения файла {0}, {1}", fileName, e.Message);
+				return null;
+				//TODO что тут делать дальше????
 			}
 		}
 
@@ -280,6 +311,5 @@ namespace OrderAssistant
 			}
 			return Enumerable.FirstOrDefault(context.stocks, stock => stockStr.ToLower().Contains(stock.signature));
 		}
-
 	}
 }

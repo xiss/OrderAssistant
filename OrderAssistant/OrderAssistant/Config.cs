@@ -17,8 +17,10 @@ namespace OrderAssistant
 	public class Config
 	{
 		public Import Import = Import.Inst;
-		//Загрузка настроек
-		public static void Load()
+		/// <summary>
+		/// Загрузить настройки
+		/// </summary>
+		static Config()
 		{
 			try
 			{
@@ -33,9 +35,10 @@ namespace OrderAssistant
 				LogManager.GetCurrentClassLogger().Error("Ошибка загрузки настроек. {0}", e.Message);
 				//TODO как закончить выполнение функции
 			}
-			
 		}
-		//Сохранение настроек
+		/// <summary>
+		/// Загрузить настройки
+		/// </summary>
 		public static void Save()
 		{
 			try
@@ -50,7 +53,6 @@ namespace OrderAssistant
 			{
 				LogManager.GetCurrentClassLogger().Error("Ошибка сохранения настроек. {0}", e.Message);
 			}
-			
 		}
 
 		//Singleton
