@@ -1,14 +1,6 @@
 ﻿using System;
-using System.CodeDom;
-using System.Collections.Generic;
 using System.Data.Entity;
-using System.Data.Entity.Core.Common.CommandTrees;
-using System.Globalization;
 using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Runtime.Remoting;
-using System.Text;
-using System.Threading.Tasks;
 using static System.String;
 using Excel = Microsoft.Office.Interop.Excel;
 using NLog;
