@@ -31,6 +31,7 @@ namespace OrderAssistant
 			try
 			{
 				dataArr = GetData(Config.Inst.Import.OrderStocksAndTraffic.FileName);
+				Logger.Info("Импорт файла ({0})", Config.Inst.Import.OrderStocksAndTraffic.FileName);
 			}
 			catch (Exception)
 			{
@@ -57,7 +58,7 @@ namespace OrderAssistant
 					return;
 				}
 
-				while (curRow <= dataArr.GetUpperBound(0))
+				while (curRow <= dataArr.GetUpperBound(0)-Config.Inst.Import.OrderStocksAndTraffic.LastRowCorrection)
 				{
 					// Date
 					if (dataArr[curRow, Config.Inst.Import.OrderStocksAndTraffic.ColDate] != null)
@@ -148,6 +149,7 @@ namespace OrderAssistant
 				}
 				Console.WriteLine("Загрузка в БД строка {0}", curRow);
 				context.SaveChanges();
+				Logger.Info("Успешно завершен импорт файла ({0}), обработано строк {1}", Config.Inst.Import.OrderStocksAndTraffic.FileName, curRow);
 			}
 		}
 		/// <summary>
