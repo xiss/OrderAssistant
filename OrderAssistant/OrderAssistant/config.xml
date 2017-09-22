@@ -3,7 +3,7 @@
   <Import>
     <LoadAfter>1000</LoadAfter>
     <OrderStocksAndTraffic>
-      <FileName>D:\Dropbox\dev\git\OrderAssistant\OrderAssistant\OrderAssistant\bin\Остатки для БД(новая).xls</FileName>
+      <FileName>D:\Dropbox\dev\git\OrderAssistant\OrderAssistant\OrderAssistant\bin\Остатки для БД(новая).mxl</FileName>
       <FirstRow>7</FirstRow>
       <ColName>18</ColName>
       <ColCatNumber>4</ColCatNumber>

@@ -162,9 +162,11 @@ namespace OrderAssistant
 			object[,] dataArr;
 			try
 			{
-				if (System.IO.Path.GetExtension(fileName).ToLower() == "mxl")
+				if (System.IO.Path.GetExtension(fileName).ToLower() == ".mxl")
 				{
-					//ISpreadsheetDocument 
+					var curWb  = new SpreadsheetDocument();
+					curWb.Open(fileName,1);
+					var a = curWb.Area(1,1,10,10).Value;
 					return null;
 				}
 				else
