@@ -27,7 +27,7 @@ namespace OrderAssistant
 				var serializer = new XmlSerializer(typeof(Config));
 				using (var stream = File.OpenRead("config.xml"))
 				{
-					_inst = (Config) serializer.Deserialize(stream);
+					_inst = (Config)serializer.Deserialize(stream);
 				}
 			}
 			catch (Exception e)
@@ -132,6 +132,11 @@ namespace OrderAssistant
 		/// Импорт. Отчет остатки и обороты. Колонка содержащая название склада.
 		/// </summary>
 		public int ColStock;
+
+		/// <summary>
+		/// Поправка на последнюю строку, насколько выше заканчиваются данные от последней заполненной строки.
+		/// </summary>
+		public int LastRowCorrection;
 
 		//Singleton
 		private OrderStocksAndTraffic() { }

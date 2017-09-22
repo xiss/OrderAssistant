@@ -14,6 +14,7 @@
       <ColCost>22</ColCost>
       <ColDate>2</ColDate>
       <ColStock>3</ColStock>
+      <LastRowCorrection>1</LastRowCorrection>
     </OrderStocksAndTraffic>
   </Import>
 </Config>
