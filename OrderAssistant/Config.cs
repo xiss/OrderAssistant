@@ -79,9 +79,19 @@ namespace OrderAssistant
 	public class OrderStocksAndTraffic
 	{
 		/// <summary>
-		/// Импорт. Отчет остатки и обороты. Полное имя файла.
+		/// Строка с сигнатурой отчета.
 		/// </summary>
-		public string FileName;
+		public int RowSign;
+
+		/// <summary>
+		/// Колонка с сигнатурой отчета.
+		/// </summary>
+		public int ColSign;
+
+		/// <summary>
+		/// Сигнатура отчета
+		/// </summary>
+		public string Sign;
 
 		/// <summary>
 		/// Импорт. Отчет остатки и обороты. Первая строка с которой начинаются данные.
@@ -142,6 +152,7 @@ namespace OrderAssistant
 		private OrderStocksAndTraffic() { }
 		private static OrderStocksAndTraffic _inst;
 		public static OrderStocksAndTraffic Inst => _inst ?? (_inst = new OrderStocksAndTraffic());
+
 	}
 
 }

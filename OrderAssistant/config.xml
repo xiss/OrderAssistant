@@ -3,7 +3,9 @@
   <Import>
     <LoadAfter>1000</LoadAfter>
     <OrderStocksAndTraffic>
-      <FileName>D:\Dropbox\dev\git\OrderAssistant\OrderAssistant\OrderAssistant\bin\Остатки для БД(новая).mxl</FileName>
+      <RowSign>2</RowSign>
+      <ColSign>2</ColSign>
+      <Sign>Складские остатки и обороты</Sign>
       <FirstRow>7</FirstRow>
       <ColName>18</ColName>
       <ColCatNumber>4</ColCatNumber>
