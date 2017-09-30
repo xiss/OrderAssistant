@@ -1,0 +1,22 @@
+﻿<?xml version="1.0"?>
+<Config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Import>
+    <LoadAfter>1000</LoadAfter>
+    <OrderStocksAndTraffic>
+      <RowSign>2</RowSign>
+      <ColSign>2</ColSign>
+      <Sign>Складские остатки и обороты</Sign>
+      <FirstRow>7</FirstRow>
+      <ColName>18</ColName>
+      <ColCatNumber>4</ColCatNumber>
+      <Col1CId>23</Col1CId>
+      <ColBrend>30</ColBrend>
+      <ColManufacturer>29</ColManufacturer>
+      <ColCount>21</ColCount>
+      <ColCost>22</ColCost>
+      <ColDate>2</ColDate>
+      <ColStock>3</ColStock>
+      <LastRowCorrection>1</LastRowCorrection>
+    </OrderStocksAndTraffic>
+  </Import>
+</Config>

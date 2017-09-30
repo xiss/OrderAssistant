@@ -1,0 +1,1278 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="Хранилище orderAssistantModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012.Azure" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="attachments">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="idBox" Type="int" Nullable="false" />
+          <Property Name="idItem" Type="int" Nullable="false" />
+          <Property Name="count" Type="int" Nullable="false" />
+          <Property Name="netWeight" Type="decimal" Precision="18" Scale="6" Nullable="false" />
+          <Property Name="grossWeight" Type="decimal" Precision="18" Scale="6" Nullable="false" />
+          <Property Name="netVolume" Type="decimal" Precision="18" Scale="6" Nullable="false" />
+          <Property Name="grossVolume" Type="decimal" Precision="18" Scale="6" Nullable="false" />
+        </EntityType>
+        <EntityType Name="balances">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="idItem" Type="int" Nullable="false" />
+          <Property Name="count" Type="decimal" Precision="18" Scale="3" Nullable="false" />
+          <Property Name="cost" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="idStock" Type="int" Nullable="false" />
+          <Property Name="dateCount" Type="date" Nullable="false" />
+        </EntityType>
+        <EntityType Name="boxes">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="idShipment" Type="int" Nullable="false" />
+          <Property Name="nameBox" Type="nvarchar" MaxLength="20" Nullable="false" />
+        </EntityType>
+        <EntityType Name="brands">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="competitorsInternet">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="code" Type="nvarchar" MaxLength="40" Nullable="false" />
+          <Property Name="deliveryTime" Type="int" Nullable="false" />
+          <Property Name="region" Type="nvarchar" MaxLength="80" Nullable="false" />
+        </EntityType>
+        <EntityType Name="documentsTraffic">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="80" Nullable="false" />
+        </EntityType>
+        <EntityType Name="invoices">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="rowNumber" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="idItem" Type="int" Nullable="false" />
+          <Property Name="idSupply" Type="int" Nullable="false" />
+          <Property Name="price" Type="int" Nullable="false" />
+          <Property Name="count" Type="int" Nullable="false" />
+          <Property Name="note" Type="nvarchar" MaxLength="300" />
+        </EntityType>
+        <EntityType Name="items">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="300" />
+          <Property Name="catNumber" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="id1C" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="idBrand" Type="int" />
+          <Property Name="idManufacturer" Type="int" />
+          <Property Name="netVolume" Type="decimal" Precision="18" Scale="6" />
+          <Property Name="grossVolume" Type="decimal" Precision="18" Scale="6" />
+          <Property Name="netWight" Type="decimal" Precision="18" Scale="6" />
+          <Property Name="grossWight" Type="decimal" Precision="18" Scale="6" />
+          <Property Name="minStock" Type="int" />
+          <Property Name="maxStock" Type="int" />
+          <Property Name="ABCgroup" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="ABCratio" Type="decimal" Precision="18" Scale="3" />
+          <Property Name="note" Type="nvarchar" MaxLength="300" />
+          <Property Name="location" Type="nvarchar" MaxLength="20" />
+          <Property Name="dateCreate" Type="timestamp" StoreGeneratedPattern="Computed" Nullable="false" />
+          <Property Name="excludeOrder" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="manufacturers">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="partners">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="1Cid" Type="nvarchar" MaxLength="20" Nullable="false" />
+        </EntityType>
+        <EntityType Name="prices">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="price" Type="decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="idItem" Type="int" Nullable="false" />
+          <Property Name="idSupplier" Type="int" Nullable="false" />
+          <Property Name="dateUpdate" Type="date" Nullable="false" />
+        </EntityType>
+        <EntityType Name="pricesInternet">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="idItem" Type="int" Nullable="false" />
+          <Property Name="idCompetitor" Type="int" Nullable="false" />
+          <Property Name="price" Type="decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="position" Type="int" Nullable="false" />
+          <Property Name="dateRecord" Type="timestamp" StoreGeneratedPattern="Computed" Nullable="false" />
+          <Property Name="count" Type="decimal" Precision="18" Scale="0" Nullable="false" />
+        </EntityType>
+        <EntityType Name="sales">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="idItem" Type="int" Nullable="false" />
+          <Property Name="idPartner" Type="int" Nullable="false" />
+          <Property Name="idStock" Type="int" Nullable="false" />
+          <Property Name="count" Type="int" Nullable="false" />
+          <Property Name="priceForPiece" Type="decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="idDocumentTraffic" Type="varchar" MaxLength="80" Nullable="false" />
+          <Property Name="dateSale" Type="date" Nullable="false" />
+        </EntityType>
+        <EntityType Name="stocks">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="80" Nullable="false" />
+          <Property Name="nameShort" Type="nvarchar" MaxLength="2" Nullable="false" />
+          <Property Name="signature" Type="nvarchar" MaxLength="80" Nullable="false" />
+        </EntityType>
+        <EntityType Name="suppliers">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="80" Nullable="false" />
+        </EntityType>
+        <EntityType Name="supplies">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="80" Nullable="false" />
+          <Property Name="shipmentNumber" Type="nvarchar" MaxLength="80" />
+          <Property Name="idSupplier" Type="int" Nullable="false" />
+          <Property Name="datePlanPrePayment" Type="date" Nullable="false" />
+          <Property Name="dateRealPrePayment" Type="date" />
+          <Property Name="datePlanConfPayment" Type="date" Nullable="false" />
+          <Property Name="dateRealConfPayment" Type="date" />
+          <Property Name="datePlanEndPicking" Type="date" Nullable="false" />
+          <Property Name="dateRealEndPicking" Type="date" />
+          <Property Name="datePlanLoadingToShip" Type="date" Nullable="false" />
+          <Property Name="dateRealLoadingToShip" Type="date" />
+          <Property Name="datePlanPayment" Type="date" Nullable="false" />
+          <Property Name="dateRealPayment" Type="date" />
+          <Property Name="datePlanArrival" Type="date" Nullable="false" />
+          <Property Name="dateRealArrival" Type="date" />
+          <Property Name="datePlanArrivalStock" Type="date" Nullable="false" />
+          <Property Name="dateRealArrivalStock" Type="date" />
+          <Property Name="netWeight" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="grossWeight" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="grossVolume" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="netVolume" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="isReceived" Type="bit" Nullable="false" />
+          <Property Name="note" Type="nvarchar" MaxLength="300" />
+          <Property Name="isExistInvoice" Type="bit" Nullable="false" />
+          <Property Name="isExistPackingList" Type="bit" Nullable="false" />
+          <Property Name="costOfDelivery" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="costWORate" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="sumInvoice" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="exchengeRate" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="invoice" Type="nvarchar" MaxLength="40" />
+        </EntityType>
+        <Association Name="attachments_boxes_id_fk">
+          <End Role="boxes" Type="Self.boxes" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="attachments" Type="Self.attachments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="boxes">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="attachments">
+              <PropertyRef Name="idBox" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="attachments_items_id_fk">
+          <End Role="items" Type="Self.items" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="attachments" Type="Self.attachments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="items">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="attachments">
+              <PropertyRef Name="idItem" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="balances_items_id_fk">
+          <End Role="items" Type="Self.items" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="balances" Type="Self.balances" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="items">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="balances">
+              <PropertyRef Name="idItem" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="balances_stocks_id_fk">
+          <End Role="stocks" Type="Self.stocks" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="balances" Type="Self.balances" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="stocks">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="balances">
+              <PropertyRef Name="idStock" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="invoices_items_id_fk">
+          <End Role="items" Type="Self.items" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="invoices" Type="Self.invoices" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="items">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="invoices">
+              <PropertyRef Name="idItem" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="invoices_supplies_id_fk">
+          <End Role="supplies" Type="Self.supplies" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="invoices" Type="Self.invoices" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="supplies">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="invoices">
+              <PropertyRef Name="idSupply" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="items_brends_id_fk">
+          <End Role="brands" Type="Self.brands" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="items" Type="Self.items" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="brands">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="items">
+              <PropertyRef Name="idBrand" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="items_manufacturers_id_fk">
+          <End Role="manufacturers" Type="Self.manufacturers" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="items" Type="Self.items" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="manufacturers">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="items">
+              <PropertyRef Name="idManufacturer" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="prices_items_id_fk">
+          <End Role="items" Type="Self.items" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="prices" Type="Self.prices" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="items">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="prices">
+              <PropertyRef Name="idItem" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="prices_suppliers_id_fk">
+          <End Role="suppliers" Type="Self.suppliers" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="prices" Type="Self.prices" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="suppliers">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="prices">
+              <PropertyRef Name="idSupplier" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="pricesInternet_competitorsInternet_id_fk">
+          <End Role="competitorsInternet" Type="Self.competitorsInternet" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="pricesInternet" Type="Self.pricesInternet" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="competitorsInternet">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="pricesInternet">
+              <PropertyRef Name="idCompetitor" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="pricesInternet_items_id_fk">
+          <End Role="items" Type="Self.items" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="pricesInternet" Type="Self.pricesInternet" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="items">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="pricesInternet">
+              <PropertyRef Name="idItem" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="sales_items_id_fk">
+          <End Role="items" Type="Self.items" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="sales" Type="Self.sales" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="items">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="sales">
+              <PropertyRef Name="idItem" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="sales_partners_id_fk">
+          <End Role="partners" Type="Self.partners" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="sales" Type="Self.sales" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="partners">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="sales">
+              <PropertyRef Name="idPartner" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="sales_stocks_id_fk">
+          <End Role="stocks" Type="Self.stocks" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="sales" Type="Self.sales" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="stocks">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="sales">
+              <PropertyRef Name="idStock" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="supplies_suppliers_id_fk">
+          <End Role="suppliers" Type="Self.suppliers" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="supplies" Type="Self.supplies" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="suppliers">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="supplies">
+              <PropertyRef Name="idSupplier" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Хранилище orderAssistantModelContainer">
+          <EntitySet Name="attachments" EntityType="Self.attachments" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="balances" EntityType="Self.balances" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="boxes" EntityType="Self.boxes" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="brands" EntityType="Self.brands" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="competitorsInternet" EntityType="Self.competitorsInternet" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="documentsTraffic" EntityType="Self.documentsTraffic" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="invoices" EntityType="Self.invoices" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="items" EntityType="Self.items" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="manufacturers" EntityType="Self.manufacturers" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="partners" EntityType="Self.partners" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="prices" EntityType="Self.prices" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="pricesInternet" EntityType="Self.pricesInternet" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sales" EntityType="Self.sales" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="stocks" EntityType="Self.stocks" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="suppliers" EntityType="Self.suppliers" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="supplies" EntityType="Self.supplies" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="attachments_boxes_id_fk" Association="Self.attachments_boxes_id_fk">
+            <End Role="boxes" EntitySet="boxes" />
+            <End Role="attachments" EntitySet="attachments" />
+          </AssociationSet>
+          <AssociationSet Name="attachments_items_id_fk" Association="Self.attachments_items_id_fk">
+            <End Role="items" EntitySet="items" />
+            <End Role="attachments" EntitySet="attachments" />
+          </AssociationSet>
+          <AssociationSet Name="balances_items_id_fk" Association="Self.balances_items_id_fk">
+            <End Role="items" EntitySet="items" />
+            <End Role="balances" EntitySet="balances" />
+          </AssociationSet>
+          <AssociationSet Name="balances_stocks_id_fk" Association="Self.balances_stocks_id_fk">
+            <End Role="stocks" EntitySet="stocks" />
+            <End Role="balances" EntitySet="balances" />
+          </AssociationSet>
+          <AssociationSet Name="invoices_items_id_fk" Association="Self.invoices_items_id_fk">
+            <End Role="items" EntitySet="items" />
+            <End Role="invoices" EntitySet="invoices" />
+          </AssociationSet>
+          <AssociationSet Name="invoices_supplies_id_fk" Association="Self.invoices_supplies_id_fk">
+            <End Role="supplies" EntitySet="supplies" />
+            <End Role="invoices" EntitySet="invoices" />
+          </AssociationSet>
+          <AssociationSet Name="items_brends_id_fk" Association="Self.items_brends_id_fk">
+            <End Role="brands" EntitySet="brands" />
+            <End Role="items" EntitySet="items" />
+          </AssociationSet>
+          <AssociationSet Name="items_manufacturers_id_fk" Association="Self.items_manufacturers_id_fk">
+            <End Role="manufacturers" EntitySet="manufacturers" />
+            <End Role="items" EntitySet="items" />
+          </AssociationSet>
+          <AssociationSet Name="prices_items_id_fk" Association="Self.prices_items_id_fk">
+            <End Role="items" EntitySet="items" />
+            <End Role="prices" EntitySet="prices" />
+          </AssociationSet>
+          <AssociationSet Name="prices_suppliers_id_fk" Association="Self.prices_suppliers_id_fk">
+            <End Role="suppliers" EntitySet="suppliers" />
+            <End Role="prices" EntitySet="prices" />
+          </AssociationSet>
+          <AssociationSet Name="pricesInternet_competitorsInternet_id_fk" Association="Self.pricesInternet_competitorsInternet_id_fk">
+            <End Role="competitorsInternet" EntitySet="competitorsInternet" />
+            <End Role="pricesInternet" EntitySet="pricesInternet" />
+          </AssociationSet>
+          <AssociationSet Name="pricesInternet_items_id_fk" Association="Self.pricesInternet_items_id_fk">
+            <End Role="items" EntitySet="items" />
+            <End Role="pricesInternet" EntitySet="pricesInternet" />
+          </AssociationSet>
+          <AssociationSet Name="sales_items_id_fk" Association="Self.sales_items_id_fk">
+            <End Role="items" EntitySet="items" />
+            <End Role="sales" EntitySet="sales" />
+          </AssociationSet>
+          <AssociationSet Name="sales_partners_id_fk" Association="Self.sales_partners_id_fk">
+            <End Role="partners" EntitySet="partners" />
+            <End Role="sales" EntitySet="sales" />
+          </AssociationSet>
+          <AssociationSet Name="sales_stocks_id_fk" Association="Self.sales_stocks_id_fk">
+            <End Role="stocks" EntitySet="stocks" />
+            <End Role="sales" EntitySet="sales" />
+          </AssociationSet>
+          <AssociationSet Name="supplies_suppliers_id_fk" Association="Self.supplies_suppliers_id_fk">
+            <End Role="suppliers" EntitySet="suppliers" />
+            <End Role="supplies" EntitySet="supplies" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="orderAssistantModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="attachment">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="idBox" Type="Int32" Nullable="false" />
+          <Property Name="idItem" Type="Int32" Nullable="false" />
+          <Property Name="count" Type="Int32" Nullable="false" />
+          <Property Name="netWeight" Type="Decimal" Precision="18" Scale="6" Nullable="false" />
+          <Property Name="grossWeight" Type="Decimal" Precision="18" Scale="6" Nullable="false" />
+          <Property Name="netVolume" Type="Decimal" Precision="18" Scale="6" Nullable="false" />
+          <Property Name="grossVolume" Type="Decimal" Precision="18" Scale="6" Nullable="false" />
+          <NavigationProperty Name="box" Relationship="Self.attachments_boxes_id_fk" FromRole="attachments" ToRole="boxes" />
+          <NavigationProperty Name="item" Relationship="Self.attachments_items_id_fk" FromRole="attachments" ToRole="items" />
+        </EntityType>
+        <EntityType Name="balance">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="idItem" Type="Int32" Nullable="false" />
+          <Property Name="count" Type="Decimal" Precision="18" Scale="3" Nullable="false" />
+          <Property Name="cost" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="idStock" Type="Int32" Nullable="false" />
+          <Property Name="dateCount" Type="DateTime" Nullable="false" Precision="0" />
+          <NavigationProperty Name="item" Relationship="Self.balances_items_id_fk" FromRole="balances" ToRole="items" />
+          <NavigationProperty Name="stock" Relationship="Self.balances_stocks_id_fk" FromRole="balances" ToRole="stocks" />
+        </EntityType>
+        <EntityType Name="box">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="idShipment" Type="Int32" Nullable="false" />
+          <Property Name="nameBox" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="attachments" Relationship="Self.attachments_boxes_id_fk" FromRole="boxes" ToRole="attachments" />
+        </EntityType>
+        <EntityType Name="brand">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="items" Relationship="Self.items_brends_id_fk" FromRole="brands" ToRole="items" />
+        </EntityType>
+        <EntityType Name="competitorsInternet">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="code" Type="String" MaxLength="40" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="deliveryTime" Type="Int32" Nullable="false" />
+          <Property Name="region" Type="String" MaxLength="80" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="pricesInternets" Relationship="Self.pricesInternet_competitorsInternet_id_fk" FromRole="competitorsInternet" ToRole="pricesInternet" />
+        </EntityType>
+        <EntityType Name="documentsTraffic">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="80" FixedLength="false" Unicode="true" Nullable="false" />
+        </EntityType>
+        <EntityType Name="invoice">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="rowNumber" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="idItem" Type="Int32" Nullable="false" />
+          <Property Name="idSupply" Type="Int32" Nullable="false" />
+          <Property Name="price" Type="Int32" Nullable="false" />
+          <Property Name="count" Type="Int32" Nullable="false" />
+          <Property Name="note" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="item" Relationship="Self.invoices_items_id_fk" FromRole="invoices" ToRole="items" />
+          <NavigationProperty Name="supply" Relationship="Self.invoices_supplies_id_fk" FromRole="invoices" ToRole="supplies" />
+        </EntityType>
+        <EntityType Name="item">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
+          <Property Name="catNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="id1C" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="idBrand" Type="Int32" />
+          <Property Name="idManufacturer" Type="Int32" />
+          <Property Name="netVolume" Type="Decimal" Precision="18" Scale="6" />
+          <Property Name="grossVolume" Type="Decimal" Precision="18" Scale="6" />
+          <Property Name="netWight" Type="Decimal" Precision="18" Scale="6" />
+          <Property Name="grossWight" Type="Decimal" Precision="18" Scale="6" />
+          <Property Name="minStock" Type="Int32" />
+          <Property Name="maxStock" Type="Int32" />
+          <Property Name="ABCgroup" Type="String" MaxLength="1" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="ABCratio" Type="Decimal" Precision="18" Scale="3" />
+          <Property Name="note" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
+          <Property Name="location" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="dateCreate" Type="Binary" MaxLength="8" FixedLength="true" Nullable="false" annotation:StoreGeneratedPattern="Computed" />
+          <Property Name="excludeOrder" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="attachments" Relationship="Self.attachments_items_id_fk" FromRole="items" ToRole="attachments" />
+          <NavigationProperty Name="balances" Relationship="Self.balances_items_id_fk" FromRole="items" ToRole="balances" />
+          <NavigationProperty Name="brand" Relationship="Self.items_brends_id_fk" FromRole="items" ToRole="brands" />
+          <NavigationProperty Name="invoices" Relationship="Self.invoices_items_id_fk" FromRole="items" ToRole="invoices" />
+          <NavigationProperty Name="manufacturer" Relationship="Self.items_manufacturers_id_fk" FromRole="items" ToRole="manufacturers" />
+          <NavigationProperty Name="prices" Relationship="Self.prices_items_id_fk" FromRole="items" ToRole="prices" />
+          <NavigationProperty Name="pricesInternets" Relationship="Self.pricesInternet_items_id_fk" FromRole="items" ToRole="pricesInternet" />
+          <NavigationProperty Name="sales" Relationship="Self.sales_items_id_fk" FromRole="items" ToRole="sales" />
+        </EntityType>
+        <EntityType Name="manufacturer">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="items" Relationship="Self.items_manufacturers_id_fk" FromRole="manufacturers" ToRole="items" />
+        </EntityType>
+        <EntityType Name="partner">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="C1Cid" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="sales" Relationship="Self.sales_partners_id_fk" FromRole="partners" ToRole="sales" />
+        </EntityType>
+        <EntityType Name="price">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="price1" Type="Decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="idItem" Type="Int32" Nullable="false" />
+          <Property Name="idSupplier" Type="Int32" Nullable="false" />
+          <Property Name="dateUpdate" Type="DateTime" Nullable="false" Precision="0" />
+          <NavigationProperty Name="item" Relationship="Self.prices_items_id_fk" FromRole="prices" ToRole="items" />
+          <NavigationProperty Name="supplier" Relationship="Self.prices_suppliers_id_fk" FromRole="prices" ToRole="suppliers" />
+        </EntityType>
+        <EntityType Name="pricesInternet">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="idItem" Type="Int32" Nullable="false" />
+          <Property Name="idCompetitor" Type="Int32" Nullable="false" />
+          <Property Name="price" Type="Decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="position" Type="Int32" Nullable="false" />
+          <Property Name="dateRecord" Type="Binary" MaxLength="8" FixedLength="true" Nullable="false" annotation:StoreGeneratedPattern="Computed" />
+          <Property Name="count" Type="Decimal" Precision="18" Scale="0" Nullable="false" />
+          <NavigationProperty Name="competitorsInternet" Relationship="Self.pricesInternet_competitorsInternet_id_fk" FromRole="pricesInternet" ToRole="competitorsInternet" />
+          <NavigationProperty Name="item" Relationship="Self.pricesInternet_items_id_fk" FromRole="pricesInternet" ToRole="items" />
+        </EntityType>
+        <EntityType Name="sale">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="idItem" Type="Int32" Nullable="false" />
+          <Property Name="idPartner" Type="Int32" Nullable="false" />
+          <Property Name="idStock" Type="Int32" Nullable="false" />
+          <Property Name="count" Type="Int32" Nullable="false" />
+          <Property Name="priceForPiece" Type="Decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="idDocumentTraffic" Type="String" MaxLength="80" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="dateSale" Type="DateTime" Nullable="false" Precision="0" />
+          <NavigationProperty Name="item" Relationship="Self.sales_items_id_fk" FromRole="sales" ToRole="items" />
+          <NavigationProperty Name="partner" Relationship="Self.sales_partners_id_fk" FromRole="sales" ToRole="partners" />
+          <NavigationProperty Name="stock" Relationship="Self.sales_stocks_id_fk" FromRole="sales" ToRole="stocks" />
+        </EntityType>
+        <EntityType Name="stock">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="80" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="nameShort" Type="String" MaxLength="2" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="signature" Type="String" MaxLength="80" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="balances" Relationship="Self.balances_stocks_id_fk" FromRole="stocks" ToRole="balances" />
+          <NavigationProperty Name="sales" Relationship="Self.sales_stocks_id_fk" FromRole="stocks" ToRole="sales" />
+        </EntityType>
+        <EntityType Name="supplier">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="80" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="prices" Relationship="Self.prices_suppliers_id_fk" FromRole="suppliers" ToRole="prices" />
+          <NavigationProperty Name="supplies" Relationship="Self.supplies_suppliers_id_fk" FromRole="suppliers" ToRole="supplies" />
+        </EntityType>
+        <EntityType Name="supply">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="80" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="shipmentNumber" Type="String" MaxLength="80" FixedLength="false" Unicode="true" />
+          <Property Name="idSupplier" Type="Int32" Nullable="false" />
+          <Property Name="datePlanPrePayment" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="dateRealPrePayment" Type="DateTime" Precision="0" />
+          <Property Name="datePlanConfPayment" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="dateRealConfPayment" Type="DateTime" Precision="0" />
+          <Property Name="datePlanEndPicking" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="dateRealEndPicking" Type="DateTime" Precision="0" />
+          <Property Name="datePlanLoadingToShip" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="dateRealLoadingToShip" Type="DateTime" Precision="0" />
+          <Property Name="datePlanPayment" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="dateRealPayment" Type="DateTime" Precision="0" />
+          <Property Name="datePlanArrival" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="dateRealArrival" Type="DateTime" Precision="0" />
+          <Property Name="datePlanArrivalStock" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="dateRealArrivalStock" Type="DateTime" Precision="0" />
+          <Property Name="netWeight" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="grossWeight" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="grossVolume" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="netVolume" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="isReceived" Type="Boolean" Nullable="false" />
+          <Property Name="note" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
+          <Property Name="isExistInvoice" Type="Boolean" Nullable="false" />
+          <Property Name="isExistPackingList" Type="Boolean" Nullable="false" />
+          <Property Name="costOfDelivery" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="costWORate" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="sumInvoice" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="exchengeRate" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="invoice" Type="String" MaxLength="40" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="invoices" Relationship="Self.invoices_supplies_id_fk" FromRole="supplies" ToRole="invoices" />
+          <NavigationProperty Name="supplier" Relationship="Self.supplies_suppliers_id_fk" FromRole="supplies" ToRole="suppliers" />
+        </EntityType>
+        <Association Name="attachments_boxes_id_fk">
+          <End Role="boxes" Type="Self.box" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="attachments" Type="Self.attachment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="boxes">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="attachments">
+              <PropertyRef Name="idBox" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="attachments_items_id_fk">
+          <End Role="items" Type="Self.item" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="attachments" Type="Self.attachment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="items">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="attachments">
+              <PropertyRef Name="idItem" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="balances_items_id_fk">
+          <End Role="items" Type="Self.item" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="balances" Type="Self.balance" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="items">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="balances">
+              <PropertyRef Name="idItem" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="balances_stocks_id_fk">
+          <End Role="stocks" Type="Self.stock" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="balances" Type="Self.balance" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="stocks">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="balances">
+              <PropertyRef Name="idStock" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="items_brends_id_fk">
+          <End Role="brands" Type="Self.brand" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="items" Type="Self.item" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="brands">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="items">
+              <PropertyRef Name="idBrand" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="pricesInternet_competitorsInternet_id_fk">
+          <End Role="competitorsInternet" Type="Self.competitorsInternet" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="pricesInternet" Type="Self.pricesInternet" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="competitorsInternet">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="pricesInternet">
+              <PropertyRef Name="idCompetitor" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="invoices_items_id_fk">
+          <End Role="items" Type="Self.item" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="invoices" Type="Self.invoice" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="items">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="invoices">
+              <PropertyRef Name="idItem" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="invoices_supplies_id_fk">
+          <End Role="supplies" Type="Self.supply" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="invoices" Type="Self.invoice" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="supplies">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="invoices">
+              <PropertyRef Name="idSupply" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="items_manufacturers_id_fk">
+          <End Role="manufacturers" Type="Self.manufacturer" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="items" Type="Self.item" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="manufacturers">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="items">
+              <PropertyRef Name="idManufacturer" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="prices_items_id_fk">
+          <End Role="items" Type="Self.item" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="prices" Type="Self.price" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="items">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="prices">
+              <PropertyRef Name="idItem" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="pricesInternet_items_id_fk">
+          <End Role="items" Type="Self.item" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="pricesInternet" Type="Self.pricesInternet" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="items">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="pricesInternet">
+              <PropertyRef Name="idItem" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="sales_items_id_fk">
+          <End Role="items" Type="Self.item" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="sales" Type="Self.sale" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="items">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="sales">
+              <PropertyRef Name="idItem" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="sales_partners_id_fk">
+          <End Role="partners" Type="Self.partner" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="sales" Type="Self.sale" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="partners">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="sales">
+              <PropertyRef Name="idPartner" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="prices_suppliers_id_fk">
+          <End Role="suppliers" Type="Self.supplier" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="prices" Type="Self.price" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="suppliers">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="prices">
+              <PropertyRef Name="idSupplier" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="sales_stocks_id_fk">
+          <End Role="stocks" Type="Self.stock" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="sales" Type="Self.sale" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="stocks">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="sales">
+              <PropertyRef Name="idStock" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="supplies_suppliers_id_fk">
+          <End Role="suppliers" Type="Self.supplier" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="supplies" Type="Self.supply" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="suppliers">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="supplies">
+              <PropertyRef Name="idSupplier" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="orderAssistantEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="attachments" EntityType="Self.attachment" />
+          <EntitySet Name="balances" EntityType="Self.balance" />
+          <EntitySet Name="boxes" EntityType="Self.box" />
+          <EntitySet Name="brands" EntityType="Self.brand" />
+          <EntitySet Name="competitorsInternets" EntityType="Self.competitorsInternet" />
+          <EntitySet Name="documentsTraffics" EntityType="Self.documentsTraffic" />
+          <EntitySet Name="invoices" EntityType="Self.invoice" />
+          <EntitySet Name="items" EntityType="Self.item" />
+          <EntitySet Name="manufacturers" EntityType="Self.manufacturer" />
+          <EntitySet Name="partners" EntityType="Self.partner" />
+          <EntitySet Name="prices" EntityType="Self.price" />
+          <EntitySet Name="pricesInternets" EntityType="Self.pricesInternet" />
+          <EntitySet Name="sales" EntityType="Self.sale" />
+          <EntitySet Name="stocks" EntityType="Self.stock" />
+          <EntitySet Name="suppliers" EntityType="Self.supplier" />
+          <EntitySet Name="supplies" EntityType="Self.supply" />
+          <AssociationSet Name="attachments_boxes_id_fk" Association="Self.attachments_boxes_id_fk">
+            <End Role="boxes" EntitySet="boxes" />
+            <End Role="attachments" EntitySet="attachments" />
+          </AssociationSet>
+          <AssociationSet Name="attachments_items_id_fk" Association="Self.attachments_items_id_fk">
+            <End Role="items" EntitySet="items" />
+            <End Role="attachments" EntitySet="attachments" />
+          </AssociationSet>
+          <AssociationSet Name="balances_items_id_fk" Association="Self.balances_items_id_fk">
+            <End Role="items" EntitySet="items" />
+            <End Role="balances" EntitySet="balances" />
+          </AssociationSet>
+          <AssociationSet Name="balances_stocks_id_fk" Association="Self.balances_stocks_id_fk">
+            <End Role="stocks" EntitySet="stocks" />
+            <End Role="balances" EntitySet="balances" />
+          </AssociationSet>
+          <AssociationSet Name="items_brends_id_fk" Association="Self.items_brends_id_fk">
+            <End Role="brands" EntitySet="brands" />
+            <End Role="items" EntitySet="items" />
+          </AssociationSet>
+          <AssociationSet Name="pricesInternet_competitorsInternet_id_fk" Association="Self.pricesInternet_competitorsInternet_id_fk">
+            <End Role="competitorsInternet" EntitySet="competitorsInternets" />
+            <End Role="pricesInternet" EntitySet="pricesInternets" />
+          </AssociationSet>
+          <AssociationSet Name="invoices_items_id_fk" Association="Self.invoices_items_id_fk">
+            <End Role="items" EntitySet="items" />
+            <End Role="invoices" EntitySet="invoices" />
+          </AssociationSet>
+          <AssociationSet Name="invoices_supplies_id_fk" Association="Self.invoices_supplies_id_fk">
+            <End Role="supplies" EntitySet="supplies" />
+            <End Role="invoices" EntitySet="invoices" />
+          </AssociationSet>
+          <AssociationSet Name="items_manufacturers_id_fk" Association="Self.items_manufacturers_id_fk">
+            <End Role="manufacturers" EntitySet="manufacturers" />
+            <End Role="items" EntitySet="items" />
+          </AssociationSet>
+          <AssociationSet Name="prices_items_id_fk" Association="Self.prices_items_id_fk">
+            <End Role="items" EntitySet="items" />
+            <End Role="prices" EntitySet="prices" />
+          </AssociationSet>
+          <AssociationSet Name="pricesInternet_items_id_fk" Association="Self.pricesInternet_items_id_fk">
+            <End Role="items" EntitySet="items" />
+            <End Role="pricesInternet" EntitySet="pricesInternets" />
+          </AssociationSet>
+          <AssociationSet Name="sales_items_id_fk" Association="Self.sales_items_id_fk">
+            <End Role="items" EntitySet="items" />
+            <End Role="sales" EntitySet="sales" />
+          </AssociationSet>
+          <AssociationSet Name="sales_partners_id_fk" Association="Self.sales_partners_id_fk">
+            <End Role="partners" EntitySet="partners" />
+            <End Role="sales" EntitySet="sales" />
+          </AssociationSet>
+          <AssociationSet Name="prices_suppliers_id_fk" Association="Self.prices_suppliers_id_fk">
+            <End Role="suppliers" EntitySet="suppliers" />
+            <End Role="prices" EntitySet="prices" />
+          </AssociationSet>
+          <AssociationSet Name="sales_stocks_id_fk" Association="Self.sales_stocks_id_fk">
+            <End Role="stocks" EntitySet="stocks" />
+            <End Role="sales" EntitySet="sales" />
+          </AssociationSet>
+          <AssociationSet Name="supplies_suppliers_id_fk" Association="Self.supplies_suppliers_id_fk">
+            <End Role="suppliers" EntitySet="suppliers" />
+            <End Role="supplies" EntitySet="supplies" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Хранилище orderAssistantModelContainer" CdmEntityContainer="orderAssistantEntities">
+          <EntitySetMapping Name="attachments">
+            <EntityTypeMapping TypeName="orderAssistantModel.attachment">
+              <MappingFragment StoreEntitySet="attachments">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="idBox" ColumnName="idBox" />
+                <ScalarProperty Name="idItem" ColumnName="idItem" />
+                <ScalarProperty Name="count" ColumnName="count" />
+                <ScalarProperty Name="netWeight" ColumnName="netWeight" />
+                <ScalarProperty Name="grossWeight" ColumnName="grossWeight" />
+                <ScalarProperty Name="netVolume" ColumnName="netVolume" />
+                <ScalarProperty Name="grossVolume" ColumnName="grossVolume" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="balances">
+            <EntityTypeMapping TypeName="orderAssistantModel.balance">
+              <MappingFragment StoreEntitySet="balances">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="idItem" ColumnName="idItem" />
+                <ScalarProperty Name="count" ColumnName="count" />
+                <ScalarProperty Name="cost" ColumnName="cost" />
+                <ScalarProperty Name="idStock" ColumnName="idStock" />
+                <ScalarProperty Name="dateCount" ColumnName="dateCount" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="boxes">
+            <EntityTypeMapping TypeName="orderAssistantModel.box">
+              <MappingFragment StoreEntitySet="boxes">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="idShipment" ColumnName="idShipment" />
+                <ScalarProperty Name="nameBox" ColumnName="nameBox" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="brands">
+            <EntityTypeMapping TypeName="orderAssistantModel.brand">
+              <MappingFragment StoreEntitySet="brands">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="competitorsInternets">
+            <EntityTypeMapping TypeName="orderAssistantModel.competitorsInternet">
+              <MappingFragment StoreEntitySet="competitorsInternet">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="code" ColumnName="code" />
+                <ScalarProperty Name="deliveryTime" ColumnName="deliveryTime" />
+                <ScalarProperty Name="region" ColumnName="region" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="documentsTraffics">
+            <EntityTypeMapping TypeName="orderAssistantModel.documentsTraffic">
+              <MappingFragment StoreEntitySet="documentsTraffic">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="invoices">
+            <EntityTypeMapping TypeName="orderAssistantModel.invoice">
+              <MappingFragment StoreEntitySet="invoices">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="rowNumber" ColumnName="rowNumber" />
+                <ScalarProperty Name="idItem" ColumnName="idItem" />
+                <ScalarProperty Name="idSupply" ColumnName="idSupply" />
+                <ScalarProperty Name="price" ColumnName="price" />
+                <ScalarProperty Name="count" ColumnName="count" />
+                <ScalarProperty Name="note" ColumnName="note" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="items">
+            <EntityTypeMapping TypeName="orderAssistantModel.item">
+              <MappingFragment StoreEntitySet="items">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="catNumber" ColumnName="catNumber" />
+                <ScalarProperty Name="id1C" ColumnName="id1C" />
+                <ScalarProperty Name="idBrand" ColumnName="idBrand" />
+                <ScalarProperty Name="idManufacturer" ColumnName="idManufacturer" />
+                <ScalarProperty Name="netVolume" ColumnName="netVolume" />
+                <ScalarProperty Name="grossVolume" ColumnName="grossVolume" />
+                <ScalarProperty Name="netWight" ColumnName="netWight" />
+                <ScalarProperty Name="grossWight" ColumnName="grossWight" />
+                <ScalarProperty Name="minStock" ColumnName="minStock" />
+                <ScalarProperty Name="maxStock" ColumnName="maxStock" />
+                <ScalarProperty Name="ABCgroup" ColumnName="ABCgroup" />
+                <ScalarProperty Name="ABCratio" ColumnName="ABCratio" />
+                <ScalarProperty Name="note" ColumnName="note" />
+                <ScalarProperty Name="location" ColumnName="location" />
+                <ScalarProperty Name="dateCreate" ColumnName="dateCreate" />
+                <ScalarProperty Name="excludeOrder" ColumnName="excludeOrder" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="manufacturers">
+            <EntityTypeMapping TypeName="orderAssistantModel.manufacturer">
+              <MappingFragment StoreEntitySet="manufacturers">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="partners">
+            <EntityTypeMapping TypeName="orderAssistantModel.partner">
+              <MappingFragment StoreEntitySet="partners">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="C1Cid" ColumnName="1Cid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="prices">
+            <EntityTypeMapping TypeName="orderAssistantModel.price">
+              <MappingFragment StoreEntitySet="prices">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="price1" ColumnName="price" />
+                <ScalarProperty Name="idItem" ColumnName="idItem" />
+                <ScalarProperty Name="idSupplier" ColumnName="idSupplier" />
+                <ScalarProperty Name="dateUpdate" ColumnName="dateUpdate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="pricesInternets">
+            <EntityTypeMapping TypeName="orderAssistantModel.pricesInternet">
+              <MappingFragment StoreEntitySet="pricesInternet">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="idItem" ColumnName="idItem" />
+                <ScalarProperty Name="idCompetitor" ColumnName="idCompetitor" />
+                <ScalarProperty Name="price" ColumnName="price" />
+                <ScalarProperty Name="position" ColumnName="position" />
+                <ScalarProperty Name="dateRecord" ColumnName="dateRecord" />
+                <ScalarProperty Name="count" ColumnName="count" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sales">
+            <EntityTypeMapping TypeName="orderAssistantModel.sale">
+              <MappingFragment StoreEntitySet="sales">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="idItem" ColumnName="idItem" />
+                <ScalarProperty Name="idPartner" ColumnName="idPartner" />
+                <ScalarProperty Name="idStock" ColumnName="idStock" />
+                <ScalarProperty Name="count" ColumnName="count" />
+                <ScalarProperty Name="priceForPiece" ColumnName="priceForPiece" />
+                <ScalarProperty Name="idDocumentTraffic" ColumnName="idDocumentTraffic" />
+                <ScalarProperty Name="dateSale" ColumnName="dateSale" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="stocks">
+            <EntityTypeMapping TypeName="orderAssistantModel.stock">
+              <MappingFragment StoreEntitySet="stocks">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="nameShort" ColumnName="nameShort" />
+                <ScalarProperty Name="signature" ColumnName="signature" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="suppliers">
+            <EntityTypeMapping TypeName="orderAssistantModel.supplier">
+              <MappingFragment StoreEntitySet="suppliers">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="supplies">
+            <EntityTypeMapping TypeName="orderAssistantModel.supply">
+              <MappingFragment StoreEntitySet="supplies">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="shipmentNumber" ColumnName="shipmentNumber" />
+                <ScalarProperty Name="idSupplier" ColumnName="idSupplier" />
+                <ScalarProperty Name="datePlanPrePayment" ColumnName="datePlanPrePayment" />
+                <ScalarProperty Name="dateRealPrePayment" ColumnName="dateRealPrePayment" />
+                <ScalarProperty Name="datePlanConfPayment" ColumnName="datePlanConfPayment" />
+                <ScalarProperty Name="dateRealConfPayment" ColumnName="dateRealConfPayment" />
+                <ScalarProperty Name="datePlanEndPicking" ColumnName="datePlanEndPicking" />
+                <ScalarProperty Name="dateRealEndPicking" ColumnName="dateRealEndPicking" />
+                <ScalarProperty Name="datePlanLoadingToShip" ColumnName="datePlanLoadingToShip" />
+                <ScalarProperty Name="dateRealLoadingToShip" ColumnName="dateRealLoadingToShip" />
+                <ScalarProperty Name="datePlanPayment" ColumnName="datePlanPayment" />
+                <ScalarProperty Name="dateRealPayment" ColumnName="dateRealPayment" />
+                <ScalarProperty Name="datePlanArrival" ColumnName="datePlanArrival" />
+                <ScalarProperty Name="dateRealArrival" ColumnName="dateRealArrival" />
+                <ScalarProperty Name="datePlanArrivalStock" ColumnName="datePlanArrivalStock" />
+                <ScalarProperty Name="dateRealArrivalStock" ColumnName="dateRealArrivalStock" />
+                <ScalarProperty Name="netWeight" ColumnName="netWeight" />
+                <ScalarProperty Name="grossWeight" ColumnName="grossWeight" />
+                <ScalarProperty Name="grossVolume" ColumnName="grossVolume" />
+                <ScalarProperty Name="netVolume" ColumnName="netVolume" />
+                <ScalarProperty Name="isReceived" ColumnName="isReceived" />
+                <ScalarProperty Name="note" ColumnName="note" />
+                <ScalarProperty Name="isExistInvoice" ColumnName="isExistInvoice" />
+                <ScalarProperty Name="isExistPackingList" ColumnName="isExistPackingList" />
+                <ScalarProperty Name="costOfDelivery" ColumnName="costOfDelivery" />
+                <ScalarProperty Name="costWORate" ColumnName="costWORate" />
+                <ScalarProperty Name="sumInvoice" ColumnName="sumInvoice" />
+                <ScalarProperty Name="exchengeRate" ColumnName="exchengeRate" />
+                <ScalarProperty Name="invoice" ColumnName="invoice" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Нет" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
