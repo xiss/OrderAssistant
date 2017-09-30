@@ -1,6 +1,6 @@
 <Window x:Class="OrderAssistantUI.ShellView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" WindowState="Maximized">
 
     <Grid Background="White">
         <TextBlock Text="Hello Caliburn Micro!"
