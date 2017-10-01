@@ -18,7 +18,7 @@ namespace OrderAssistantUI {
 		{
 			dynamic settings = new ExpandoObject();
 			settings.WindowStartupLocation = WindowStartupLocation.Manual;
-			_windowManager.ShowWindow(new ProgressViewModel(_windowManager), null, settings);
+			_windowManager.ShowDialog(new ProgressViewModel(_windowManager), null, settings);
 		}
 	}
 }

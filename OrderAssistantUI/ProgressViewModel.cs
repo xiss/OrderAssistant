@@ -7,12 +7,14 @@ namespace OrderAssistantUI {
 	[Export(typeof(ProgressViewModel))]
 	public class ProgressViewModel :PropertyChangedBase, IShell
 	{
-		private readonly IWindowManager _windowManager;
 
+		private readonly IWindowManager _windowManager;
 		[ImportingConstructor]
 		public ProgressViewModel(IWindowManager windowManager)
 		{
 			_windowManager = windowManager;
 		}
+
+		public string LabelProgress1 = "sdfsdf";
 	}
 }
