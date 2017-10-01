@@ -1,37 +1,51 @@
-namespace OrderAssistantUI {
+
     using System;
     using System.Collections.Generic;
     using Caliburn.Micro;
+    using System.ComponentModel.Composition;
+    using System.ComponentModel.Composition.Hosting;
+    using System.ComponentModel.Composition.Primitives;
 
-    public class AppBootstrapper : BootstrapperBase {
-        SimpleContainer container;
+namespace OrderAssistantUI
+{
 
-        public AppBootstrapper() {
-            Initialize();
-        }
 
-        protected override void Configure() {
-            container = new SimpleContainer();
+	public class AppBootstrapper : BootstrapperBase
+	{
+		SimpleContainer container;
 
-            container.Singleton<IWindowManager, WindowManager>();
-            container.Singleton<IEventAggregator, EventAggregator>();
-            container.PerRequest<IShell, ShellViewModel>();
-        }
+		public AppBootstrapper()
+		{
+			Initialize();
+		}
 
-        protected override object GetInstance(Type service, string key) {
-            return container.GetInstance(service, key);
-        }
+		protected override void Configure()
+		{
+			container = new SimpleContainer();
 
-        protected override IEnumerable<object> GetAllInstances(Type service) {
-            return container.GetAllInstances(service);
-        }
+			container.Singleton<IWindowManager, WindowManager>();
+			container.Singleton<IEventAggregator, EventAggregator>();
+			container.PerRequest<IShell, ShellViewModel>();
+		}
 
-        protected override void BuildUp(object instance) {
-            container.BuildUp(instance);
-        }
+		protected override object GetInstance(Type service, string key)
+		{
+			return container.GetInstance(service, key);
+		}
 
-        protected override void OnStartup(object sender, System.Windows.StartupEventArgs e) {
-            DisplayRootViewFor<IShell>();
-        }
-    }
+		protected override IEnumerable<object> GetAllInstances(Type service)
+		{
+			return container.GetAllInstances(service);
+		}
+
+		protected override void BuildUp(object instance)
+		{
+			container.BuildUp(instance);
+		}
+
+		protected override void OnStartup(object sender, System.Windows.StartupEventArgs e)
+		{
+			DisplayRootViewFor<IShell>();
+		}
+	}
 }

@@ -1,10 +1,24 @@
+using Caliburn.Micro;
+using System.ComponentModel.Composition;
+using System.Dynamic;
+using System.Windows;
+
 namespace OrderAssistantUI {
-	public class ShellViewModel : Caliburn.Micro.PropertyChangedBase, IShell
+	[Export(typeof(ShellViewModel))]
+	public class ShellViewModel : PropertyChangedBase, IShell
 	{
-		public void ImportOrderStocksAndTraffic()
+		private readonly IWindowManager _windowManager;
+
+		[ImportingConstructor]
+		public ShellViewModel(IWindowManager windowManager)
 		{
-			Import.ImportOrderStocksAndTraffic();
+			_windowManager = windowManager;
+		}
+		public void OpenWindow()
+		{
+			dynamic settings = new ExpandoObject();
+			settings.WindowStartupLocation = WindowStartupLocation.Manual;
+			_windowManager.ShowWindow(new ProgressViewModel(_windowManager), null, settings);
 		}
 	}
-	
 }

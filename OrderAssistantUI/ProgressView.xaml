@@ -1,0 +1,7 @@
+<Window x:Class="OrderAssistantUI.ProgressView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" ResizeMode="NoResize" ShowInTaskbar="False" WindowStartupLocation="CenterScreen">
+    <Grid>
+        <ProgressBar HorizontalAlignment="Left" Value="50" Height="10" Margin="313,248,0,0" VerticalAlignment="Top" Width="100"/>
+    </Grid>
+</Window>
