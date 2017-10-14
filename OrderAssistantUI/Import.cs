@@ -5,30 +5,33 @@ using NLog;
 using OrderAssistant;
 using Excel = Microsoft.Office.Interop.Excel;
 using System.Windows.Forms;
+using Caliburn.Micro;
+using System.ComponentModel.Composition;
+using System.Dynamic;
+using System.Threading;
+using System.Windows;
 
 
 namespace OrderAssistantUI
 {
 	static class Import
 	{
-		private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
-		[STAThread]
-		public static void ImportOrderStocksAndTraffic()
+		private static readonly Logger Logger = NLog.LogManager.GetCurrentClassLogger();
+		//[STAThread]
+		public static void ImportOrderStocksAndTraffic(IWindowManager windowManager)
 		{
 			//Загружаем настройки
-			var curStock = new stock();
-			var curDate = new DateTime();
-			var curRow = Config.Inst.Import.OrderStocksAndTraffic.FirstRow;
+
 			var openFileDialog = new OpenFileDialog
 			{
 				Multiselect = true,
-				Title = "Выберите отчеты 'Складские остатки и обороты'",
-				InitialDirectory = @"C:\"
+				Title = "Выберите отчеты 'Складские остатки и обороты'"
 			};
 			openFileDialog.ShowDialog();
 			// если ничего не выбрано выходим
-			if(openFileDialog.FileName == String.Empty)
+			if (openFileDialog.FileName == String.Empty)
 				return;
+
 			foreach (var fileName in openFileDialog.FileNames)
 			{
 				object[,] dataArr;
@@ -42,139 +45,162 @@ namespace OrderAssistantUI
 					continue;
 				}
 
-				// Проверка сигнатуы отчета
-				try
-				{
-					if (dataArr[Config.Inst.Import.OrderStocksAndTraffic.RowSign, Config.Inst.Import.OrderStocksAndTraffic.ColSign].ToString() !=
-					    Config.Inst.Import.OrderStocksAndTraffic.Sign)
-					{
-						throw new Exception(
-							$"Ячейка содержит значение {dataArr[Config.Inst.Import.OrderStocksAndTraffic.RowSign, Config.Inst.Import.OrderStocksAndTraffic.ColSign]}");
-					}
-				}
-				catch (Exception e)
-				{
-					Logger.Error("Сигнатура файла ({0}) не совпадает с сигнатурой ({1}) {2}", fileName, Config.Inst.Import.OrderStocksAndTraffic.Sign, e.Message);
-					continue;
-				}
+				// Создаем прогресс бар
+				dynamic settings = new ExpandoObject();
+				settings.WindowStartupLocation = WindowStartupLocation.Manual;
+				var progressBar = new ProgressViewModel(windowManager,openFileDialog.FileNames.Length, dataArr.GetUpperBound(0), "Импорт отчета Остатки и обороты");
+				windowManager.ShowWindow(progressBar, null, settings);
 
-				using (var context = new orderAssistantEntities())
-				{
-					context.Configuration.LazyLoadingEnabled = false;
-					context.Configuration.AutoDetectChangesEnabled = false;
+				Thread someThread = new Thread(PlaceSomeNameHere);
+				someThread.Start((object)new Tuple<object[,], ProgressViewModel, string>(dataArr, progressBar, fileName));
+				//someThread.Join();
 
-					// Загрузка контекста
-					try
-					{
-						context.items.Load();
-						context.brands.Load();
-						context.manufacturers.Load();
-						context.balances.Load();
-						context.stocks.Load();
-					}
-					catch (Exception e)
-					{
-						Logger.Error("Ошибка загрузки контекста из БД. {0}", e.Message);
-						return;
-					}
-
-					while (curRow <= dataArr.GetUpperBound(0) - Config.Inst.Import.OrderStocksAndTraffic.LastRowCorrection)
-					{
-						// Date
-						if (dataArr[curRow, Config.Inst.Import.OrderStocksAndTraffic.ColDate] != null)
-						{
-							try
-							{
-								curDate = DateTime.Parse(dataArr[curRow, Config.Inst.Import.OrderStocksAndTraffic.ColDate].ToString());
-								curRow++;
-								continue;
-							}
-							catch (FormatException e)
-							{
-								Logger.Error("Дата не является датой. Строка {0}. {1}", curRow, e.Message);
-								curRow++;
-								continue;
-							}
-						}
-						// Stock
-						if (dataArr[curRow, Config.Inst.Import.OrderStocksAndTraffic.ColStock] != null)
-						{
-							try
-							{
-								curStock = TakeStock(dataArr[curRow, Config.Inst.Import.OrderStocksAndTraffic.ColStock].ToString(), context);
-								curRow++;
-								continue;
-							}
-							catch (Exception e)
-							{
-								Logger.Error("Склад не найден в БД. Строка {0}. {1}", curRow, e.Message);
-								curRow++;
-								continue;
-							}
-						}
-
-						string catNumber;
-						string name;
-						decimal count;
-						string id1C;
-						string manufacturerStr;
-						string brendStr;
-						decimal cost;
-						try
-						{
-							catNumber = dataArr[curRow, Config.Inst.Import.OrderStocksAndTraffic.ColCatNumber].ToString();
-							name = dataArr[curRow, Config.Inst.Import.OrderStocksAndTraffic.ColName].ToString();
-							count = Convert.ToDecimal(dataArr[curRow, Config.Inst.Import.OrderStocksAndTraffic.ColCount]);
-							id1C = dataArr[curRow, Config.Inst.Import.OrderStocksAndTraffic.Col1CId].ToString();
-							manufacturerStr = dataArr[curRow, Config.Inst.Import.OrderStocksAndTraffic.ColManufacturer].ToString();
-							brendStr = dataArr[curRow, Config.Inst.Import.OrderStocksAndTraffic.ColBrend].ToString();
-							cost = Convert.ToDecimal(dataArr[curRow, Config.Inst.Import.OrderStocksAndTraffic.ColCost]);
-						}
-						catch (Exception e)
-						{
-							Logger.Warn("Ошибка конвертации данных в строке {0}. {1}", curRow, e.Message);
-							curRow++;
-							continue;
-						}
-
-						// Проверка на отрицательные остатки
-						if (cost <= 0 || count <= 0)
-						{
-							Logger.Warn("Себестоимость или количество меньше или равно нулю. Строка {0}", curRow);
-							curRow++;
-							continue;
-						}
-
-						// Проверка на пустые строки
-						if (String.IsNullOrEmpty(catNumber) ||
-						    String.IsNullOrEmpty(name) ||
-						    String.IsNullOrEmpty(id1C) ||
-						    String.IsNullOrEmpty(manufacturerStr) ||
-						    String.IsNullOrEmpty(brendStr))
-						{
-							Logger.Warn("Строка {0} содержит пустые параметры", curRow);
-							curRow++;
-							continue;
-						}
-
-						var item = GetItem(name, id1C, manufacturerStr, brendStr, catNumber, context);
-						item.balances.Add(GetBalance(curDate, curStock, cost, item, count, context));
-
-						if (curRow % Config.Inst.Import.LoadAfter == 0)
-						{
-							Console.WriteLine("Загрузка в БД строка {0}", curRow);
-							context.SaveChanges();
-						}
-						curRow++;
-					}
-					Console.WriteLine("Загрузка в БД строка {0}", curRow);
-					context.SaveChanges();
-					Logger.Info("Успешно завершен импорт файла ({0}), обработано строк {1}", fileName, curRow);
-				}
 			}
 		}
 
-			
+		private static void PlaceSomeNameHere(object threadStartParams)
+		{
+			var @params = threadStartParams as Tuple<object[,], ProgressViewModel, string>;
+			var dataArr = @params.Item1;
+			var progressBar = @params.Item2;
+			var fileName = @params.Item3;
+			var curStock = new stock();
+			var curDate = new DateTime();
+			var curRow = Config.Inst.Import.OrderStocksAndTraffic.FirstRow;
+			// Проверка сигнатуы отчета
+			try
+			{
+				if (dataArr[Config.Inst.Import.OrderStocksAndTraffic.RowSign, Config.Inst.Import.OrderStocksAndTraffic.ColSign].ToString() !=
+					Config.Inst.Import.OrderStocksAndTraffic.Sign)
+				{
+					throw new Exception(
+						$"Ячейка содержит значение {dataArr[Config.Inst.Import.OrderStocksAndTraffic.RowSign, Config.Inst.Import.OrderStocksAndTraffic.ColSign]}");
+				}
+			}
+			catch (Exception e)
+			{
+				Logger.Error("Сигнатура файла ({0}) не совпадает с сигнатурой ({1}) {2}", fileName, Config.Inst.Import.OrderStocksAndTraffic.Sign, e.Message);
+				return;
+			}
+
+			var context = IoC.Get<OrderAssistantEntities>();
+
+			context.Configuration.LazyLoadingEnabled = false;
+			context.Configuration.AutoDetectChangesEnabled = false;
+
+			// Загрузка контекста
+			try
+			{
+				context.items.Load();
+				context.brands.Load();
+				context.manufacturers.Load();
+				context.balances.Load();
+				context.stocks.Load();
+			}
+			catch (Exception e)
+			{
+				Logger.Error("Ошибка загрузки контекста из БД. {0}", e.Message);
+				return;
+			}
+
+			while (curRow <= dataArr.GetUpperBound(0) - Config.Inst.Import.OrderStocksAndTraffic.LastRowCorrection)
+			{
+				progressBar.ProgressBar2Value = curRow;
+				progressBar.LabelProgress2 = curRow.ToString();
+				progressBar.Refresh();
+
+				// Date
+				if (dataArr[curRow, Config.Inst.Import.OrderStocksAndTraffic.ColDate] != null)
+				{
+					try
+					{
+						curDate = DateTime.Parse(dataArr[curRow, Config.Inst.Import.OrderStocksAndTraffic.ColDate].ToString());
+						curRow++;
+						continue;
+					}
+					catch (FormatException e)
+					{
+						Logger.Error("Дата не является датой. Строка {0}. {1}", curRow, e.Message);
+						curRow++;
+						continue;
+					}
+				}
+				// Stock
+				if (dataArr[curRow, Config.Inst.Import.OrderStocksAndTraffic.ColStock] != null)
+				{
+					try
+					{
+						curStock = TakeStock(dataArr[curRow, Config.Inst.Import.OrderStocksAndTraffic.ColStock].ToString(), context);
+						curRow++;
+						continue;
+					}
+					catch (Exception e)
+					{
+						Logger.Error("Склад не найден в БД. Строка {0}. {1}", curRow, e.Message);
+						curRow++;
+						continue;
+					}
+				}
+
+				string catNumber;
+				string name;
+				decimal count;
+				string id1C;
+				string manufacturerStr;
+				string brendStr;
+				decimal cost;
+				try
+				{
+					catNumber = dataArr[curRow, Config.Inst.Import.OrderStocksAndTraffic.ColCatNumber].ToString();
+					name = dataArr[curRow, Config.Inst.Import.OrderStocksAndTraffic.ColName].ToString();
+					count = Convert.ToDecimal(dataArr[curRow, Config.Inst.Import.OrderStocksAndTraffic.ColCount]);
+					id1C = dataArr[curRow, Config.Inst.Import.OrderStocksAndTraffic.Col1CId].ToString();
+					manufacturerStr = dataArr[curRow, Config.Inst.Import.OrderStocksAndTraffic.ColManufacturer].ToString();
+					brendStr = dataArr[curRow, Config.Inst.Import.OrderStocksAndTraffic.ColBrend].ToString();
+					cost = Convert.ToDecimal(dataArr[curRow, Config.Inst.Import.OrderStocksAndTraffic.ColCost]);
+				}
+				catch (Exception e)
+				{
+					Logger.Warn("Ошибка конвертации данных в строке {0}. {1}", curRow, e.Message);
+					curRow++;
+					continue;
+				}
+
+				// Проверка на отрицательные остатки
+				if (cost <= 0 || count <= 0)
+				{
+					Logger.Warn("Себестоимость или количество меньше или равно нулю. Строка {0}", curRow);
+					curRow++;
+					continue;
+				}
+
+				// Проверка на пустые строки
+				if (string.IsNullOrEmpty(catNumber) ||
+					string.IsNullOrEmpty(name) ||
+					string.IsNullOrEmpty(id1C) ||
+					string.IsNullOrEmpty(manufacturerStr) ||
+					string.IsNullOrEmpty(brendStr))
+				{
+					Logger.Warn("Строка {0} содержит пустые параметры", curRow);
+					curRow++;
+					continue;
+				}
+
+				var item = GetItem(name, id1C, manufacturerStr, brendStr, catNumber, context);
+				item.balances.Add(GetBalance(curDate, curStock, cost, item, count, context));
+
+				if (curRow % Config.Inst.Import.LoadAfter == 0)
+				{
+					Console.WriteLine("Загрузка в БД строка {0}", curRow);
+					context.SaveChanges();
+				}
+				curRow++;
+			}
+			Console.WriteLine("Загрузка в БД строка {0}", curRow);
+			context.SaveChanges();
+			Logger.Info("Успешно завершен импорт файла ({0}), обработано строк {1}", fileName, curRow);
+		}
+
 		/// <summary>
 		/// Возвращает массив с данными для импорта
 		/// </summary>
@@ -189,28 +215,28 @@ namespace OrderAssistantUI
 				//{
 				//	var curWb  = new SpreadsheetDocument();
 				//	curWb.Open(fileName);
-					
+
 
 				//	var a = curWb.Area(1,1,10,10).Value;
 				//	return null;
 				//}
 				//else
 				//{
-					var curWb = new Excel.Application().Workbooks.Open(fileName);
-					dynamic curSheet = curWb.Worksheets.Item[1];
-					var lastRow = curSheet.Cells.SpecialCells(Excel.XlCellType.xlCellTypeLastCell).Row;
-					var lastCol = curSheet.Cells.SpecialCells(Excel.XlCellType.xlCellTypeLastCell).Column;
+				var curWb = new Excel.Application().Workbooks.Open(fileName);
+				dynamic curSheet = curWb.Worksheets.Item[1];
+				var lastRow = curSheet.Cells.SpecialCells(Excel.XlCellType.xlCellTypeLastCell).Row;
+				var lastCol = curSheet.Cells.SpecialCells(Excel.XlCellType.xlCellTypeLastCell).Column;
 
-					// Считываем лист в массив
-					var range = (Excel.Range) curSheet.Range[curSheet.Cells[1, 1], curSheet.Cells[lastRow, lastCol]];
-					dataArr = (object[,]) range.Value;
-					curWb.Close();
+				// Считываем лист в массив
+				var range = (Excel.Range)curSheet.Range[curSheet.Cells[1, 1], curSheet.Cells[lastRow, lastCol]];
+				dataArr = (object[,])range.Value;
+				curWb.Close();
 				//}
 				return dataArr;
 			}
 			catch (Exception e)
 			{
-				LogManager.GetCurrentClassLogger().Error("Ошибка чтения файла ({0}), {1}", fileName, e);
+				NLog.LogManager.GetCurrentClassLogger().Error("Ошибка чтения файла ({0}), {1}", fileName, e);
 				throw;
 			}
 		}
@@ -221,7 +247,7 @@ namespace OrderAssistantUI
 		/// <param name="nameStr">Название</param>
 		/// <param name="context"></param>
 		/// <returns>Ссылка на бренд</returns>
-		private static brand GetBrand(string nameStr, orderAssistantEntities context)
+		private static brand GetBrand(string nameStr, OrderAssistantEntities context)
 		{
 			// Проверяем, есть ли такой бренд
 			var brend = (from b in context.brands.Local
@@ -244,7 +270,7 @@ namespace OrderAssistantUI
 		/// <param name="nameStr">Название производителя</param>
 		/// <param name="context"></param>
 		/// <returns>Ссылка на производителя</returns>
-		private static manufacturer GetManufacturer(string nameStr, orderAssistantEntities context)
+		private static manufacturer GetManufacturer(string nameStr, OrderAssistantEntities context)
 		{
 			// Проверяем, есть ли такой бренд
 			var manufacturer = (from m in context.manufacturers.Local
@@ -272,7 +298,7 @@ namespace OrderAssistantUI
 		/// <param name="context"></param>
 		/// <returns>Ссылка на item</returns>
 		private static item GetItem(string name, string id1C, string manufacturerStr, string brendStr, string catNumber,
-			orderAssistantEntities context)
+			OrderAssistantEntities context)
 		{
 			// Проверяем есть ли такой item
 			var item = (from i in context.items.Local
@@ -312,7 +338,7 @@ namespace OrderAssistantUI
 		/// <param name="context"></param>
 		/// <returns></returns>
 		private static balance GetBalance(DateTime date, stock stock, decimal cost, item item, decimal count,
-			orderAssistantEntities context)
+			OrderAssistantEntities context)
 		{
 			// Проверяем есть такая запись или нет
 			var balance = (from b in context.balances.Local
@@ -345,7 +371,7 @@ namespace OrderAssistantUI
 		/// <param name="stockStr">строка с описанием скалада</param>
 		/// <param name="context"></param>
 		/// <returns></returns>
-		private static stock TakeStock(string stockStr, orderAssistantEntities context)
+		private static stock TakeStock(string stockStr, OrderAssistantEntities context)
 		{
 			if (String.IsNullOrEmpty(stockStr))
 			{

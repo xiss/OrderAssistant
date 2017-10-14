@@ -13,10 +13,10 @@ namespace OrderAssistantUI
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class orderAssistantEntities : DbContext
+    public partial class OrderAssistantEntities : DbContext
     {
-        public orderAssistantEntities()
-            : base("name=orderAssistantEntities")
+        public OrderAssistantEntities()
+            : base("name=OrderAssistantEntities")
         {
         }
     

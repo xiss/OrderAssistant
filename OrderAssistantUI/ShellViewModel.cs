@@ -18,7 +18,13 @@ namespace OrderAssistantUI {
 		{
 			dynamic settings = new ExpandoObject();
 			settings.WindowStartupLocation = WindowStartupLocation.Manual;
-			_windowManager.ShowDialog(new ProgressViewModel(_windowManager), null, settings);
+			//_windowManager.ShowDialog(new ProgressViewModel(_windowManager, "sdfhsdhfshdf","asd",12,23,"asdasdsd"));
+			_windowManager.ShowDialog(IoC.Get<ProgressViewModel>());
+		}
+
+		public void Import()
+		{
+			OrderAssistantUI.Import.ImportOrderStocksAndTraffic(_windowManager);
 		}
 	}
 }

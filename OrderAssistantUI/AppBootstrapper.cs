@@ -25,7 +25,9 @@ namespace OrderAssistantUI
 
 			container.Singleton<IWindowManager, WindowManager>();
 			container.Singleton<IEventAggregator, EventAggregator>();
-			container.PerRequest<IShell, ShellViewModel>();
+			//container.PerRequest<IShell, ShellViewModel>();
+			container.PerRequest<ShellViewModel>();
+			container.Singleton<OrderAssistantEntities>();
 		}
 
 		protected override object GetInstance(Type service, string key)
@@ -45,7 +47,7 @@ namespace OrderAssistantUI
 
 		protected override void OnStartup(object sender, System.Windows.StartupEventArgs e)
 		{
-			DisplayRootViewFor<IShell>();
+			DisplayRootViewFor<ShellViewModel>();
 		}
 	}
 }

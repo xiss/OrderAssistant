@@ -956,7 +956,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="orderAssistantEntities" annotation:LazyLoadingEnabled="true">
+        <EntityContainer Name="OrderAssistantEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="attachments" EntityType="Self.attachment" />
           <EntitySet Name="balances" EntityType="Self.balance" />
           <EntitySet Name="boxes" EntityType="Self.box" />
@@ -1043,7 +1043,7 @@
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="Хранилище orderAssistantModelContainer" CdmEntityContainer="orderAssistantEntities">
+        <EntityContainerMapping StorageEntityContainer="Хранилище orderAssistantModelContainer" CdmEntityContainer="OrderAssistantEntities">
           <EntitySetMapping Name="attachments">
             <EntityTypeMapping TypeName="orderAssistantModel.attachment">
               <MappingFragment StoreEntitySet="attachments">
