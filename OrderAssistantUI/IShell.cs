@@ -1,3 +1,3 @@
 namespace OrderAssistantUI {
-    public interface IShell {}
+    public interface IImport {}
 }

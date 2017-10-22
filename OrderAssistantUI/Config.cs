@@ -1,31 +1,21 @@
 ﻿using System;
-using System.CodeDom;
-using System.Collections.Generic;
-using System.Data.Entity.Core.Objects;
-using System.Dynamic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml;
-using System.Xml.Serialization;
 using System.IO;
+using System.Xml.Serialization;
 using NLog;
 
-namespace OrderAssistant
+namespace OrderAssistantUI
 {
 	[Serializable]
 	public class Config
 	{
-		public Import Import = Import.Inst;
+		public Imports Imports = Imports.Inst;
 		/// <summary>
-		/// Загрузить настройки
-		/// </summary>
+		/// Загрузить настройки </summary>
 		static Config()
 		{
 			try
 			{
-				var serializer = new XmlSerializer(typeof(Config));
-				using (var stream = File.OpenRead("config.xml"))
+				var serializer = new XmlSerializer(typeof(Config));using (var stream = File.OpenRead("config.xml"))
 				{
 					_inst = (Config)serializer.Deserialize(stream);
 				}
@@ -39,8 +29,7 @@ namespace OrderAssistant
 		/// <summary>
 		/// Загрузить настройки
 		/// </summary>
-		public static void Save()
-		{
+		public static void Save(){
 			try
 			{
 				var serializer = new XmlSerializer(typeof(Config));
@@ -61,7 +50,7 @@ namespace OrderAssistant
 		public static Config Inst => _inst ?? (_inst = new Config());
 	}
 	[Serializable]
-	public class Import
+	public class Imports
 	{
 		/// <summary>
 		/// Количество строк после которых осуществляется загрузка в базу
@@ -71,9 +60,9 @@ namespace OrderAssistant
 		public OrderStocksAndTraffic OrderStocksAndTraffic = OrderStocksAndTraffic.Inst;
 
 		//Singleton
-		private Import() { }
-		private static Import _inst;
-		public static Import Inst => _inst ?? (_inst = new Import());
+		private Imports() { }
+		private static Imports _inst;
+		public static Imports Inst => _inst ?? (_inst = new Imports());
 	}
 	[Serializable]
 	public class OrderStocksAndTraffic

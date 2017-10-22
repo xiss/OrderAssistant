@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0"?>
 <Config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-  <Import>
+  <Imports>
     <LoadAfter>1000</LoadAfter>
     <OrderStocksAndTraffic>
       <RowSign>2</RowSign>
@@ -18,5 +18,5 @@
       <ColStock>3</ColStock>
       <LastRowCorrection>1</LastRowCorrection>
     </OrderStocksAndTraffic>
-  </Import>
+  </Imports>
 </Config>
