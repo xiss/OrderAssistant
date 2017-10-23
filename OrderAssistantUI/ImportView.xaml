@@ -29,13 +29,15 @@
                             <dxe:ProgressBarEdit IsPercent="True" ContentDisplayMode="Value" DisplayFormatString="0%" Name="ProgressBarSub" Maximum="{Binding Path=ProgressBarSubMaximum, Mode=TwoWay}" Margin="0" VerticalAlignment="Top" Height="20"  DockPanel.Dock="Bottom" Value="{Binding Path=ProgressBarSubValue, Mode=TwoWay}"/>
                             <Label Name="LabelProgressSub" Content="{Binding Path=LabelProgressSub, Mode=TwoWay}" Height="25" Margin="0" VerticalAlignment="Top" DockPanel.Dock="Bottom"/>
                             <dxe:ProgressBarEdit IsPercent="True" ContentDisplayMode="Value" DisplayFormatString="0%" Name="ProgressBar" Maximum="{Binding Path=ProgressBarMaximum, Mode=TwoWay}" Margin="0" VerticalAlignment="Top" Height="20" DockPanel.Dock="Bottom" Value="{Binding Path=ProgressBarValue, Mode=TwoWay}"/>
-                            <Label Name="LabelProgress" Content="{Binding Path=LabelProgress, Mode=TwoWay}" Height="25" Margin="0" VerticalAlignment="Top" DockPanel.Dock="Bottom"/>
-                            <StackPanel DockPanel.Dock="Left" Width="200" >
-                                <RadioButton Content="Stocks"></RadioButton>
-                                <RadioButton Content="item2" ></RadioButton>
-                            </StackPanel>
-                            <TextBlock Margin="0" Text="{Binding Path=TextBlockConfig, Mode=TwoWay}" Width="200"/>
-                            <TextBlock Margin="0" Text="{Binding Path=TextBlockLog, Mode=TwoWay}"/>
+                            <Label Name="LabelProgress" Content="{Binding Path=LabelProgress, Mode=TwoWay}" Height="25" Margin="0,10,0,0" VerticalAlignment="Top" DockPanel.Dock="Bottom"/>
+                            <GroupBox Header="ImportVariant" Margin="0,0,10,0">
+                                <StackPanel DockPanel.Dock="Left" Width="200" >
+                                    <RadioButton Content="OrderStocksAndTraffic" IsChecked="{Binding OrderStocksAndTraffic}"></RadioButton>
+                                    <RadioButton Content="item" IsChecked="{Binding item}"></RadioButton>
+                                </StackPanel>
+                            </GroupBox>
+                            <TextBox Margin="0,0,10,0" Text="{Binding Path=TextBoxConfig, Mode=TwoWay}" Width="350" IsReadOnly="True" TextWrapping="Wrap" ScrollViewer.VerticalScrollBarVisibility="Auto"/>
+                            <TextBox Margin="0" Text="{Binding Path=TextBoxLog, Mode=TwoWay}" IsReadOnly="True" TextWrapping="Wrap" ScrollViewer.VerticalScrollBarVisibility="Auto"/>
                         </DockPanel>
                     </dxdo:LayoutPanel>
                     <dxdo:LayoutPanel Caption="Panel2"/>

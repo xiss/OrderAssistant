@@ -13,6 +13,7 @@ using System.Linq;
 using DevExpress.Data.Helpers;
 using System.Windows.Forms;
 using NLog;
+using NLog.Targets;
 
 namespace OrderAssistantUI
 {
@@ -31,10 +32,12 @@ namespace OrderAssistantUI
 
 		public async void ButtonStartImport()
 		{
+			SetDefault();
+
 			var openFileDialog = new OpenFileDialog
 			{
 				Multiselect = true,
-				Title = "Выберите отчеты 'Складские остатки и обороты'"
+				Title = "Выберите фаайлы для импорта"
 			};
 			openFileDialog.ShowDialog();
 			// если ничего не выбрано выходим
@@ -42,10 +45,19 @@ namespace OrderAssistantUI
 			{
 				return;
 			}
+			Logger.Info("Старт импорта.");
 			try
 			{
-				await OrderStocksAndTrafficAsync(openFileDialog.FileNames, _cancelToken.Token);
-			}
+				//Используем необходимы импорт
+				switch (ImportVariant)
+				{
+					case ImportVariant.item:
+						System.Windows.MessageBox.Show("item");
+						return;
+					case ImportVariant.OrderStocksAndTraffic:
+						await OrderStocksAndTrafficAsync(openFileDialog.FileNames, _cancelToken.Token);
+						return;
+				}}
 			catch (OperationCanceledException e)
 			{
 				Logger.Info("Импорт отменен пользователем({0})", e.Message);
@@ -56,15 +68,16 @@ namespace OrderAssistantUI
 			}
 			finally
 			{
-				IoC.Get<ImportViewModel>().SetDefault();
+				SetDefault();
+				Logger.Info("Окончание импорта.");
 			}
 		}
 
-		private  async Task OrderStocksAndTrafficAsync(string[] fileNames, CancellationToken cancelToken)
+		private async Task OrderStocksAndTrafficAsync(string[] fileNames, CancellationToken cancelToken)
 		{
 			await Task.Run(() =>
 			{
-				
+
 				ButtonStartImportIsEnabled = false;
 				ProgressBarMaximum = fileNames.Length;
 				foreach (var fileName in fileNames)
@@ -130,7 +143,6 @@ namespace OrderAssistantUI
 
 						ProgressBarSubValue = curRow;
 						LabelProgressSub = curRow.ToString();
-						//Refresh();
 
 						// Date
 						if (dataArr[curRow, Config.Inst.Imports.OrderStocksAndTraffic.ColDate] != null)
@@ -406,6 +418,7 @@ namespace OrderAssistantUI
 			_cancelToken.Cancel();
 		}
 
+
 		private bool _buttonStartImportIsEnabled = true;
 		public bool ButtonStartImportIsEnabled
 		{
@@ -483,40 +496,36 @@ namespace OrderAssistantUI
 			}
 		}
 
-		private string _textBlockConfig;
-		public string TextBlockConfig
+		private string _textBoxConfig;
+		public string TextBoxConfig
 		{
-			get => _textBlockConfig;
+			get => _textBoxConfig;
 			set
 			{
-				var serializer = new XmlSerializer(typeof(OrderStocksAndTraffic));
-				StringWriter textWriter = new StringWriter();
-				serializer.Serialize(textWriter, Config.Inst.Imports.OrderStocksAndTraffic);
-
-				_textBlockConfig = textWriter.ToString(); textWriter.Close();
-				NotifyOfPropertyChange(() => TextBlockConfig);
+				_textBoxConfig = value;
+				NotifyOfPropertyChange(() => _textBoxConfig);
 			}
 		}
 
-		private string _textBlockTimer;
-		public string TextBlockTimer
+		private string _textBoxTimer;
+		public string TextBoxTimer
 		{
-			get => _textBlockTimer;
+			get => _textBoxTimer;
 			set
 			{
-				_textBlockTimer = value;
-				NotifyOfPropertyChange(() => TextBlockTimer);
+				_textBoxTimer = value;
+				NotifyOfPropertyChange(() => TextBoxTimer);
 			}
 		}
 
-		private string _textBlockLog;
-		public string TextBlockLog
+		private string _textBoxLog;
+		public string TextBoxLog
 		{
-			get => _textBlockLog;
+			get => _textBoxLog;
 			set
 			{
-				_textBlockLog = _textBlockLog + value + "\r\n";
-				NotifyOfPropertyChange(() => TextBlockLog);
+				_textBoxLog = _textBoxLog + value + "\r\n";
+				NotifyOfPropertyChange(() => TextBoxLog);
 			}
 		}
 
@@ -529,9 +538,57 @@ namespace OrderAssistantUI
 			ProgressBarSubMaximum = 100;
 			ProgressBarValue = 0;
 			ProgressBarSubValue = 0;
-			TextBlockTimer = "";
+			TextBoxTimer = "";
 			_cancelToken = new CancellationTokenSource();
 		}
+
+
+		ImportVariant _importVariant;
+		internal ImportVariant ImportVariant
+		{
+			get { return _importVariant; }
+			set
+			{
+				if (_importVariant == value)
+				{
+					return;
+				}
+				_importVariant = value;
+				NotifyOfPropertyChange(() => item);
+				NotifyOfPropertyChange(() => OrderStocksAndTraffic);
+			}
+		}
+
+		public bool OrderStocksAndTraffic
+		{
+			get { return ImportVariant == ImportVariant.OrderStocksAndTraffic; }
+			set
+			{
+				ImportVariant = value ? ImportVariant.OrderStocksAndTraffic : ImportVariant;
+
+				var serializer = new XmlSerializer(typeof(OrderStocksAndTraffic));
+				var textWriter = new StringWriter();
+				serializer.Serialize(textWriter, Config.Inst.Imports.OrderStocksAndTraffic);
+				TextBoxConfig = textWriter.ToString();
+				textWriter.Close();
+				NotifyOfPropertyChange(() => TextBoxConfig);
+			}
+		}
+
+		public bool item
+		{
+			get => ImportVariant == ImportVariant.item;
+			set
+			{
+				ImportVariant = value ? ImportVariant.item : ImportVariant; TextBoxConfig = "item";
+				NotifyOfPropertyChange(() => TextBoxConfig);
+			}
+		}
+	}
+	enum ImportVariant
+	{
+		item,
+		OrderStocksAndTraffic
 	}
 }
 
